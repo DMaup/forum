@@ -163,21 +163,21 @@ function getCategories (){
 
     $connection = getConnection();
 
-    $sql = "SELECT cat_title, cat_description FROM categories";
+    $sql = "SELECT cat_id, cat_title, cat_description FROM categories";
     
     $categories = mysqli_query($connection, $sql);
-debug($categories);
+
     mysqli_close( $connection );
     
-    $categories = [];
+    $category = [];
     
     while( $row = mysqli_fetch_assoc($categories) ){
 
-        $categories[] = $row;
+        $category[] = $row;
 
     }
-    
-    return $categories;
+    //debug($category);
+    return $category;
 
 }
 
