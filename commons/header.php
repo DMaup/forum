@@ -9,7 +9,12 @@
             <nav>
                 <ul>
                     <li>
-                    <input type="submit" value="Se Déconnecter">
+                        Utilisateur connecté : <?php echo $_SESSION["user"]["username"]; ?>
+                    </li>
+                    <li>
+                        <form method="post" action="?service=disconnect">
+                            <input type="submit" value="Se Déconnecter" />
+                        </form>
                     </li>
                     <li>
                         <a href="?page=login"> Changer d'utilisateur </a>
@@ -17,21 +22,18 @@
                     <li>
                         <a href="?page=home"> Home </a>
                     </li>
-                    <li>
-                        <a href="?page=posts"> Poster </a>
+                    <?php if( isLogged() ) { ?>
+                    <li> 
+                        <a href="?page=posts"> Posts </a>
                     </li>
+                    <?php } ?>
                     <li>
                         <a href="?page=edit"> Editer </a>
-                    </li>
-                    <li>
-                        <a href="?page=inscription"> S'inscrire </a>
-                    </li>
-
+                    </li>                 
                     <?php if( isLogged( ADMIN ) ) { ?>
-
-                        <li> 
-                            <a href="?page=admin"> Admin </a>
-                        </li>
+                    <li> 
+                        <a href="?page=admin"> Gestion des Utilisateurs </a>
+                    </li>
 
                     <?php } ?>
 

@@ -19,9 +19,12 @@
             case "create_user":
                 include "services/service_create_user.php";
                 break;
+            case "choose_cat":
+                include "pages/categories.php";
+                break;
             case "post":
-                connectionRequired();
-                include "services/service_post.php";
+                connectionRequired( USER, MODERATOR, ADMIN );
+                include "pages/posts.php";
                 break;
             case "edit_post":
                 connectionRequired( USER, MODERATOR, ADMIN );
@@ -47,8 +50,13 @@
                 connectionRequired( ADMIN );
                 include "services/service_delete_topic.php";
                 break;
+            case "disconnect":
+                connectionRequired( USER, MODERATOR, ADMIN );
+                include "services/service_disconnect.php";
+                break;
+                
             default :
-                header("Location: ?page=login");
+                header("Location: ?page=home");
 
         }
         
@@ -76,8 +84,8 @@
             $page_file = "pages/login.php";
             break;
 
-        case "post":
-            connectionRequired( USER, MODERATOR, ADMIN );
+        case "posts":
+            connectionRequired();
             $page_file = "pages/posts.php";
             break;
 

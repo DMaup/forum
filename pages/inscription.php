@@ -1,10 +1,12 @@
-
-
-    <!-- 
-       ******  INSCRIPTION DES UTILISATEURS ******
-    -->
-
     <h2> Nouvel utilisateur : </h2>
+
+    <?php
+
+    if( isset($_GET["message"]) ){
+        echo "<div class='message'>" . $_GET["message"] . "</div>";
+    }
+    
+    ?>
    
     <form action="?service=create_user" method="POST">   
 

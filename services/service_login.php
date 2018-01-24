@@ -6,7 +6,7 @@ if( isset( $_POST["username"] ) && isset( $_POST["password"] ) ){
     $password = sha1( $_POST["password"] . SALT );
 
     $user = getUser( $username, $password );
-    if( $user ){ // Teste si utilisateur trouvé avec la requete (sinon null)
+    if( $user ){
 
         $_SESSION["user"] = $user;
         $connected = true;
@@ -19,10 +19,8 @@ if( $connected ){
     header("Location: ?page=home");
 }
 else {
-    // unset pour détruire une variable
-    // unset($_SESSION["user"]);
-
-    session_unset(); // Detruit toute les variables de SESSION
+    
+    SESSION_destroy(); 
     
     $error = urlencode("Identifiant ou mot de passe incorrect");
     header("Location: ?page=login&error=".$error);
