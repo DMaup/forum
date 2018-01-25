@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <!-- <link rel="stylesheet" href="assets/css/styles.css"> -->
+        <link rel="stylesheet" href="assets/css/styles.css">
     </head>
     <body>
 
@@ -9,7 +9,8 @@
             <nav>
                 <ul>
                     <li>
-                        Utilisateur connecté : <?php echo $_SESSION["user"]["username"]; ?>
+                        Utilisateur connecté : <?php echo $_SESSION["user"]["username"]?>
+                        (<?php echo$_SESSION["user"]["id_role"]?>)
                     </li>
                     <li>
                         <form method="post" action="?service=disconnect">

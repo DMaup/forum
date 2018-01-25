@@ -1,3 +1,4 @@
+<a href="?page=home"> Home </a> <br>
 <h1> Login </h1>
 
 <?php

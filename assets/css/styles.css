@@ -1,4 +1,5 @@
-label {
-    display: block;
-    margin: 5px;
-}
+#post_text {
+    width : 400px;
+    height : 200px;
+
+};

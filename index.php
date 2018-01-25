@@ -2,8 +2,7 @@
     require "functions.php";
 
     /* Service */
-    // mon/url.php?service=nom_du_service
-
+    
     if( isset( $_GET["service"] ) ){
 
         $service = $_GET["service"];
@@ -22,17 +21,13 @@
             case "choose_cat":
                 include "pages/categories.php";
                 break;
-            case "post":
-                connectionRequired( USER, MODERATOR, ADMIN );
-                include "pages/posts.php";
-                break;
-            case "edit_post":
-                connectionRequired( USER, MODERATOR, ADMIN );
-                include "services/service_edit_post.php";
-                break;
             case "create_post":
                 connectionRequired( USER, MODERATOR, ADMIN );
                 include "services/service_create_post.php";
+                break;   
+            case "edit_post":
+                connectionRequired( USER, MODERATOR, ADMIN );
+                include "services/service_edit_post.php";
                 break;
             case "delete_own_post":
                 connectionRequired( USER, MODERATOR, ADMIN );
@@ -75,35 +70,31 @@
 
     switch( $page ){
 
-        case "home":
-            
+        case "home":            
             $page_file = "pages/home.php";
-            break;
-        
+            break;        
         case "login":
             $page_file = "pages/login.php";
             break;
-
         case "posts":
-            connectionRequired();
+            //connectionRequired();
             $page_file = "pages/posts.php";
             break;
-
+        case "create_post":
+            connectionRequired( USER, MODERATOR, ADMIN );
+            $page_file = "pages/new_post.php";
+            break;
         case "edit":
             connectionRequired( USER, MODERATOR, ADMIN );
             $page_file = "pages/edit.php";
             break;
-
         case "admin":
             connectionRequired( ADMIN );
             $page_file = "pages/admin.php";
             break;
-
-        case "inscription":
-            
+        case "inscription":            
             $page_file = "pages/inscription.php";
             break;
-
         default:
             $page_file = "pages/404.php";
 

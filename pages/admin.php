@@ -5,19 +5,19 @@
         echo "<div class='msg'>" . $_GET["message"] . "</div>";
     }
     
-    $label = "";
-    $price = "";
-    if( isset( $_SESSION["fields"] ) ){
-        $label = $_SESSION["fields"]["label"];
-        $price = $_SESSION["fields"]["price"];
-    }
+    // $label = "";
+    // $price = "";
+    // if( isset( $_SESSION["fields"] ) ){
+    //     $label = $_SESSION["fields"]["label"];
+    //     $price = $_SESSION["fields"]["price"];
+    // }
 ?>
-<h1> Administration </h1> 
+<h1> Administration du forum </h1> 
 
-<?php if( isGranted( $id_role, CAN_CREATE_PRODUCT ) ){ ?> 
+<!-- <?php if( isGranted( $id_role, CAN_CREATE_PRODUCT ) ){ ?>  -->
 
     <!-- 
-       ****** GESTION CREATION DES PRODUITS ******
+       ****** GESTION CREATION DES POSTS ******
     -->
 
     <h2> Ajouter un produit : </h2>

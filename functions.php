@@ -26,6 +26,7 @@ define("USER", 3);
 //Files
 
 function isLogged( $as_role = USER ){
+    
 
     return ( 
         isset( $_SESSION["user"] ) 
@@ -163,7 +164,7 @@ function getCategories (){
 
     $connection = getConnection();
 
-    $sql = "SELECT cat_id, cat_title, cat_description FROM categories";
+    $sql = "SELECT cat_title, cat_description FROM categories";
     
     $categories = mysqli_query($connection, $sql);
 
@@ -176,12 +177,9 @@ function getCategories (){
         $category[] = $row;
 
     }
-    //debug($category);
+    
     return $category;
-
 }
-
-
 
 /***** POSTS ******/
 
@@ -301,9 +299,7 @@ function countPosts(){
     mysqli_close( $connection );
 
     return $result["number"];
-
 }
-
  
     $post = [
         "title",
@@ -312,26 +308,28 @@ function countPosts(){
         
     ];
 
-function createPost( $post ){
+function createPost( $new_post ){
 
     $connection = getConnection();
-    $sql = "INSERT INTO post VALUES (null, ?, ?, ?, null)";
+    $current_user = $_SESSION["user"]["username"];
+    $sql = "INSERT INTO posts VALUES (null, 2, ?, null, ?, ?)";
 
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( 
         $statement, 
         "sss", 
-        $post["title"],
-        $post["writer"],
-        $post["text"] 
+        $new_post["post_title"],
+        $current_user,
+        $new_post["post_text"] 
     );
+
     mysqli_stmt_execute( $statement );
-    $inserted = mysqli_stmt_affected_rows( $statement );
+    $post_inserted = mysqli_stmt_affected_rows( $statement );
 
     mysqli_stmt_close( $statement );
     mysqli_close( $connection );
 
-    return (boolean)($inserted > 0);
+    return (boolean)($post_inserted > 0);
 
 }
 

@@ -1,3 +1,9 @@
+
+<?php
+$nb_posts= countPosts();
+?>
+<a href="?page=home"> Home </a> <br>
+Nombre de posts dans le sujet : <?php echo $nb_posts; ?>
 <div id="posts">
 <?php 
 
@@ -12,7 +18,7 @@
 
     if( count($posts) ){
 
-        $html_post = '<form action="?service=create_post" method="POST">';
+        $html_post = '<form action="?page=create_post" method="POST">';
 
             // Génération des posts
             foreach( $posts as $key => $post ) {
@@ -21,7 +27,8 @@
                     // $html_post .= '<input type="checkbox" name="' . $post["label"] . '" value="' . $post["id"] . '">';
                     $html_post .= '<h3>' . $post["title"] . '</h3>';
                     $html_post .= '<h4>' . $post["writer"] . '</h4>';
-                    $html_post .= '<p>' . $post["text"] . ' €</p>';
+                    $html_post .= '<p>' . $post["text"] . ' </p>';
+                    $html_post .= '<p>' . $post["date"] . ' </p>';
                 $html_post .= '</div>';  
 
             }

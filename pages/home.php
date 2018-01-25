@@ -28,7 +28,7 @@
 
     if( count($cats) ){
 
-        $html_cat = '<form action="?service=service_choose_cat" method="POST">';
+        $html_cat = '<form action="?page=posts" method="POST">';
 
             
             foreach( $cats as $key => $cat ) {

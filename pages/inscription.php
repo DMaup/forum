@@ -1,3 +1,4 @@
+<a href="?page=home"> Home </a> <br>
     <h2> Nouvel utilisateur : </h2>
 
     <?php
@@ -26,8 +27,11 @@
         </label> -->
 
         <input type="submit" value="Créer">
+        
+                    
 
     </form>
+    
 
 
 
