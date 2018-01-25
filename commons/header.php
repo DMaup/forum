@@ -10,7 +10,20 @@
                 <ul>
                     <li>
                         Utilisateur connecté : <?php echo $_SESSION["user"]["username"]?>
-                        (<?php echo$_SESSION["user"]["id_role"]?>)
+                                                
+                        <?php
+                        if ($_SESSION["user"]["id_role"]==1){
+                                $role_name="Administrateur";
+                        }
+                        else if ($_SESSION["user"]["id_role"]==2){
+                            $role_name="Modérateur";
+                        }
+                        else if ($_SESSION["user"]["id_role"]==3){
+                            $role_name="Utilisateur standard";
+                        }
+                        
+                        ?>
+                        (<?php echo $role_name;?>)
                     </li>
                     <li>
                         <form method="post" action="?service=disconnect">
@@ -20,23 +33,30 @@
                     <li>
                         <a href="?page=login"> Changer d'utilisateur </a>
                     </li>
-                    <li>
+                        <?php if( !isLogged() ) { ?>
+                    <li>                    
                         <a href="?page=home"> Home </a>
                     </li>
-                    <?php if( isLogged() ) { ?>
+                        <?php } ?>
+                        <?php if( isLogged() ) { ?>
                     <li> 
                         <a href="?page=posts"> Posts </a>
                     </li>
-                    <?php } ?>
+                        <?php } ?>
+                        <?php if( isLogged() ) { ?>
+                    <li> 
+                        <a href="?page=categories"> Catégories </a>
+                    </li>
+                        <?php } ?>
                     <li>
                         <a href="?page=edit"> Editer </a>
                     </li>                 
-                    <?php if( isLogged( ADMIN ) ) { ?>
+                        <?php if( isLogged( ADMIN ) ) { ?>
                     <li> 
                         <a href="?page=admin"> Gestion des Utilisateurs </a>
                     </li>
 
-                    <?php } ?>
+                        <?php } ?>
 
                 </ul>
             </nav>

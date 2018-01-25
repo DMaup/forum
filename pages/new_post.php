@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="assets/css/styles.css">
-<h2> Nouveau Post dans la catégorie : </h2>
+<a href="?page=home"> Home </a> <br>
+<h2> Nouveau Post sur le sujet : </h2>
 
 <?php
 

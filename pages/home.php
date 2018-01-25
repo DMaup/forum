@@ -27,20 +27,19 @@
     $cats = getCategories($index_page);
 
     if( count($cats) ){
-
-        $html_cat = '<form action="?page=posts" method="POST">';
-
-            
-            foreach( $cats as $key => $cat ) {
-                
+        $html_cat="";
+        foreach( $cats as $key => $cat ) {
+            $html_cat .= '<form action="?page=posts" method="POST">';         
+            $cat_id=$cat["cat_id"];           
                 $html_cat .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';               
                     $html_cat .= '<h4>' . $cat["cat_title"] . '</h4>';
                     $html_cat .= '<p>' . $cat["cat_description"] . '</p>';
-                    $html_cat .= '<input type="submit" value="Accéder aux sujets" id=$cat["cat_id"]>';
+                    $html_cat .= '<input type="">' . $cat["cat_id"] . '</p>';
+                    $html_cat .= '<input type="submit" value="Accéder aux sujets">';
                 $html_cat .= '</div>';   
-            }
-
-        $html_cat .= '</form>';
+           
+            $html_cat .= '</form>';
+        }
         
         echo $html_cat;
     }

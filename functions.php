@@ -27,7 +27,6 @@ define("USER", 3);
 
 function isLogged( $as_role = USER ){
     
-
     return ( 
         isset( $_SESSION["user"] ) 
         && $_SESSION["user"]["id_role"] <= $as_role 
@@ -111,7 +110,7 @@ function getUsers(){
 function getUser( $username, $password ){
 
     $connection = getConnection();
-
+    
     $sql = "SELECT * FROM users WHERE username=? AND password=?";
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( $statement, "ss", $username, $password );
@@ -164,7 +163,7 @@ function getCategories (){
 
     $connection = getConnection();
 
-    $sql = "SELECT cat_title, cat_description FROM categories";
+    $sql = "SELECT cat_id, cat_title, cat_description FROM categories";
     
     $categories = mysqli_query($connection, $sql);
 

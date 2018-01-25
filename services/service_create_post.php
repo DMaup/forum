@@ -46,4 +46,4 @@ else {
     $message = "Il manque des données !";
 }
 
-header("Location: ?page=create_post&message=". $message);
+header("Location: ?page=posts&message=". $message);

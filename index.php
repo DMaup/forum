@@ -18,9 +18,10 @@
             case "create_user":
                 include "services/service_create_user.php";
                 break;
-            case "choose_cat":
-                include "pages/categories.php";
-                break;
+            // case "choose_cat":
+            //     connectionRequired( MODERATOR, ADMIN );
+            //     include "service/service_choose_cat.php";
+            //     break;
             case "create_post":
                 connectionRequired( USER, MODERATOR, ADMIN );
                 include "services/service_create_post.php";
@@ -80,9 +81,13 @@
             //connectionRequired();
             $page_file = "pages/posts.php";
             break;
-        case "create_post":
+        case "new_post":
             connectionRequired( USER, MODERATOR, ADMIN );
             $page_file = "pages/new_post.php";
+            break;
+        case "categories":
+            connectionRequired( MODERATOR, ADMIN );
+            $page_file = "pages/categories.php";
             break;
         case "edit":
             connectionRequired( USER, MODERATOR, ADMIN );

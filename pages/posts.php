@@ -1,9 +1,24 @@
-
 <?php
+
+if( isset($_GET["message"]) ){
+    echo "<div class='message'>" . $_GET["message"] . "</div>";
+}
+
+?>
+<?php
+
+if( isset($_GET["cat_id"]) ){
+    $cat_id=($_GET["cat_id"]);
+    debug ($cat_id);  
+}
+
+
 $nb_posts= countPosts();
+
 ?>
 <a href="?page=home"> Home </a> <br>
-Nombre de posts dans le sujet : <?php echo $nb_posts; ?>
+Nombre de posts dans le sujet : <?php echo $nb_posts ?>
+Catégory <?php echo $cat_id ?>
 <div id="posts">
 <?php 
 
@@ -18,7 +33,7 @@ Nombre de posts dans le sujet : <?php echo $nb_posts; ?>
 
     if( count($posts) ){
 
-        $html_post = '<form action="?page=create_post" method="POST">';
+        $html_post = '<form action="?page=new_post" method="POST">';
 
             // Génération des posts
             foreach( $posts as $key => $post ) {
