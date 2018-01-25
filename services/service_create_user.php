@@ -6,6 +6,7 @@ if(
 
     $new_firstname = $_POST["new_firstname"];
     $new_password = $_POST["new_password"];
+    $confirm_password = $_POST["confirm_password"];
     
     $_SESSION["fields"] = $_POST;
     
@@ -22,6 +23,12 @@ if(
         $message = "Le mot de passe doit contenir de 6 à 16 caractères !";
         $_SESSION["fields"]["new_password"] = "";
     }
+
+    else if( $confirm_password != $new_password ) {
+        $message = "Les mots de passe sont différents !";
+        $_SESSION["fields"]["new_password"] = "";
+    }
+
     
 
     // All ok

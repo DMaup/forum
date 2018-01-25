@@ -21,10 +21,10 @@
             <input type="password" name="new_password" value="<?php  $new_password ?>" >
         </label>
 
-        <!-- <label>
+        <label>
             <span> Confirmer le Mot de passe </span>
             <input type="password" name="confirm_password" value="<?php  $confirm_password ?>" >
-        </label> -->
+        </label>
 
         <input type="submit" value="Créer">
         

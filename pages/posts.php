@@ -7,10 +7,7 @@ if( isset($_GET["message"]) ){
 ?>
 <?php
 
-if( isset($_GET["cat_id"]) ){
-    $cat_id=($_GET["cat_id"]);
-    debug ($cat_id);  
-}
+
 
 
 $nb_posts= countPosts();
@@ -18,7 +15,16 @@ $nb_posts= countPosts();
 ?>
 <a href="?page=home"> Home </a> <br>
 Nombre de posts dans le sujet : <?php echo $nb_posts ?>
-Catégory <?php echo $cat_id ?>
+<?php 
+if( isset($_POST['id_cat'])){
+    $cat_id=($_POST['id_cat']);  
+}
+?>
+<br>
+Catégorie : <?php echo $cat_id ?>
+
+
+
 <div id="posts">
 <?php 
 

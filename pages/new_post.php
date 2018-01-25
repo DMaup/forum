@@ -14,12 +14,12 @@ if( isset($_GET["message"]) ){
 
     <label>
         <span> Titre </span><br>
-        <input type="textarea" name="post_title" value="<?php $post_title ?>" >
+        <input type="text" name="post_title" value="<?php $post_title ?>" >
     </label>
         <br>
     <label>
         <span> Texte </span><br>
-        <input name="post_text" id="post_text" value="<?php $post_text ?>" >
+        <textarea name="post_text" id="post_text" value="<?php $post_text ?>" ></textarea>
     </label>
     <br>
         <input type="submit" value="Publier">
