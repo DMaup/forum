@@ -180,6 +180,83 @@ function getCategories (){
     return $category;
 }
 
+/***** TOPICS ******/
+
+function getTopics (){
+
+    $connection = getConnection();
+
+    $sql = "SELECT topic_id, topic_label, topic_date FROM topics";
+    
+    $topics = mysqli_query($connection, $sql);
+
+    mysqli_close( $connection );
+    
+    $topic = [];
+    
+    while( $row = mysqli_fetch_assoc($topics) ){
+
+        $topic[] = $row;
+
+    }
+    
+    return $topic;
+}
+
+function countTopics(){
+
+    $connection = getConnection();
+    $sql = "SELECT COUNT(*) as nb_topics FROM topics";
+    $results = mysqli_query( $connection, $sql );
+    $result = mysqli_fetch_assoc( $results );
+    mysqli_close( $connection );
+
+    return $result["nb_topics"];
+}
+
+function countTopicsByCat($b_cat){
+
+    $connection = getConnection();
+    $sql = "SELECT COUNT(*) as nb_topicsByCat FROM topics WHERE topic_cat=?";
+    $results = mysqli_query( $connection, "i", $sql );
+    $result = mysqli_fetch_assoc( $results );
+    mysqli_close( $connection );
+
+    return $result["nb_topicsByCat"];
+}
+
+function getTopicsByCat($b_cat){
+
+    $connection = getConnection();
+    
+    $sql = "SELECT topics.topic_id, topics.topic_label, topics.topic_date, categories.cat_title, users.username
+    FROM topics
+    INNER JOIN users ON users.user_id = topics.topic_writer
+    INNER JOIN categories ON categories.cat_id = topics.topic_cat
+    WHERE categories.cat_id=?";
+            
+
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $b_cat );
+    mysqli_stmt_execute( $statement );
+    mysqli_stmt_bind_result( $statement, $b_id, $b_label, $b_date, $b_cat, $b_writer);
+    mysqli_stmt_fetch( $statement );
+
+    $topic[] = [
+        "id" => $b_id,
+        "label" => $b_label,
+        "date" => $b_date,
+        "cat" => $b_cat,
+        "writer" => $b_writer         
+    ];
+    
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+
+    return $topic;
+
+}
+
 /***** POSTS ******/
 
 function getPosts( $index_page = 0 ){
@@ -210,26 +287,45 @@ function getPosts( $index_page = 0 ){
     
     mysqli_stmt_close( $statement );
     mysqli_close( $connection );
-//debug($posts);
+
     return $posts;
 }
 
-function getPostById( $id ){
+function countPosts(){
 
     $connection = getConnection();
-    $sql = "SELECT * FROM posts WHERE id=?";
+    $sql = "SELECT COUNT(*) as nb_posts FROM posts";
+    $results = mysqli_query( $connection, $sql );
+    $result = mysqli_fetch_assoc( $results );
+    mysqli_close( $connection );
+
+    return $result["nb_posts"];
+}
+
+function getPostByTopic($b_topic, $index_page = 0){
+
+    $connection = getConnection();
+    $sql = "SELECT post_id, post_title, post_writer, post_text, post_topics, post_date
+    FROM posts
+    WHERE post_topics=?
+    LIMIT ?, ?";
+    //debug($sql);
+
+    $start_index = $index_page * POSTS_BY_PAGE;
+    $end_index = POSTS_BY_PAGE;
 
     $statement = mysqli_prepare( $connection, $sql );
-    mysqli_stmt_bind_param( $statement, "i", $id );
+    mysqli_stmt_bind_param( $statement, "iii", $b_topic, $start_index, $end_index);
     mysqli_stmt_execute( $statement );
-    mysqli_stmt_bind_result( $statement, $b_id, $b_title, $b_writer, $b_text, $b_date );
+    mysqli_stmt_bind_result( $statement, $b_id, $b_title, $b_writer, $b_text, $b_topic, $b_date );
     mysqli_stmt_fetch( $statement );
 
-    $post = [
+    $post[] = [
         "id" => $b_id,
-        "title" => utf8_encode( $b_title ),
-        "writer" => utf8_encode($b_writer),
-        "text" => utf8_encode( $b_text ),
+        "title" => $b_title,
+        "writer" => $b_writer,
+        "text" => $b_text,
+        "topic" => $b_topic,
         "date" => $b_date
     ];
 
@@ -289,16 +385,7 @@ function deletePostById( $id ){
 
 }
 
-function countPosts(){
 
-    $connection = getConnection();
-    $sql = "SELECT COUNT(*) as number FROM posts";
-    $results = mysqli_query( $connection, $sql );
-    $result = mysqli_fetch_assoc( $results );
-    mysqli_close( $connection );
-
-    return $result["number"];
-}
  
     $post = [
         "title",
@@ -311,15 +398,16 @@ function createPost( $new_post ){
 
     $connection = getConnection();
     $current_user = $_SESSION["user"]["username"];
-    $sql = "INSERT INTO posts VALUES (null, 2, ?, null, ?, ?)";
+    $sql = "INSERT INTO posts VALUES (null, ?, ?, null, ?, ?)";
 
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( 
         $statement, 
-        "sss", 
+        "ssss", 
         $new_post["post_title"],
         $current_user,
-        $new_post["post_text"] 
+        $new_post["post_text"],
+        $topic_id
     );
 
     mysqli_stmt_execute( $statement );

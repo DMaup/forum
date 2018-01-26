@@ -29,13 +29,14 @@
     if( count($cats) ){
         $html_cat="";
         foreach( $cats as $key => $cat ) {
-            $html_cat .= '<form action="?page=posts" method="POST">';         
+            $html_cat .= '<form action="?page=topics" method="POST">';         
                       
                 $html_cat .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';               
                     $html_cat .= '<h4>' . $cat["cat_title"] . '</h4>';
                     $html_cat .= '<p>' . $cat["cat_description"] . '</p>';
-                    $html_cat .= '<input type="hidden" name="id_cat" value=' .$cat["cat_id"] . '>';
-                    $html_cat .= '<input type="submit" value="Accéder aux sujets">';
+                    $html_cat .= '<input type="hidden" name="cat_id" value=' .$cat["cat_id"] . '>';
+                    $html_cat .= '<input type="hidden" name="cat_title" value=' .$cat["cat_title"] . '>';
+                    $html_cat .= '<input type="submit" value="Lire plus">';
                 $html_cat .= '</div>';   
            
             $html_cat .= '</form>';

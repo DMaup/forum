@@ -39,7 +39,7 @@
                 include "services/service_delete_all_posts.php";
                 break;
             case "create_topic":
-                connectionRequired( ADMIN );
+                connectionRequired( USER, MODERATOR, ADMIN );
                 include "services/service_create_topic.php";
                 break;
             case "delete_topic":
@@ -84,6 +84,10 @@
         case "new_post":
             connectionRequired( USER, MODERATOR, ADMIN );
             $page_file = "pages/new_post.php";
+            break;
+        case "topics":
+            //connectionRequired(  USER, MODERATOR, ADMIN );
+            $page_file = "pages/topics.php";
             break;
         case "categories":
             connectionRequired( MODERATOR, ADMIN );

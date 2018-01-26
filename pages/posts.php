@@ -3,28 +3,21 @@
 if( isset($_GET["message"]) ){
     echo "<div class='message'>" . $_GET["message"] . "</div>";
 }
-
 ?>
 <?php
-
-
-
 
 $nb_posts= countPosts();
 
 ?>
 <a href="?page=home"> Home </a> <br>
-Nombre de posts dans le sujet : <?php echo $nb_posts ?>
+
 <?php 
-if( isset($_POST['id_cat'])){
-    $cat_id=($_POST['id_cat']);  
+if( isset($_POST['id'])){
+    $topic_id=($_POST['id']);
+    
 }
 ?>
 <br>
-Catégorie : <?php echo $cat_id ?>
-
-
-
 <div id="posts">
 <?php 
 
@@ -35,7 +28,7 @@ Catégorie : <?php echo $cat_id ?>
 
 ?>
 <?php 
-    $posts = getPosts( $index_page );
+    $posts = getPostByTopic($topic_id);
 
     if( count($posts) ){
 
@@ -56,9 +49,10 @@ Catégorie : <?php echo $cat_id ?>
 
             $html_post .= '<input type="submit" value="Créer un nouveau post">';
         $html_post .= '</form>';
-
-        // Génération de la liste des pages
-        $html_post .= '<ul>';
+?>
+        Nombre de posts dans le sujet : <?php echo count($posts) ?>
+        <!-- Génération de la liste des pages -->
+<?php       $html_post .= '<ul>';
 
         $nb_pages = ceil( countPosts() / POSTS_BY_PAGE );
         

@@ -48,6 +48,11 @@
                         <a href="?page=categories"> Catégories </a>
                     </li>
                         <?php } ?>
+                        <?php if( isLogged() ) { ?>
+                    <li> 
+                        <a href="?page=topics"> Sujets </a>
+                    </li>
+                        <?php } ?>
                     <li>
                         <a href="?page=edit"> Editer </a>
                     </li>                 
