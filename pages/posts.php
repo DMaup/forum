@@ -4,11 +4,7 @@ if( isset($_GET["message"]) ){
     echo "<div class='message'>" . $_GET["message"] . "</div>";
 }
 ?>
-<?php
 
-$nb_posts= countPosts();
-
-?>
 <a href="?page=home"> Home </a> <br>
 
 <?php 
@@ -19,14 +15,7 @@ if( isset($_POST['id'])){
 ?>
 <br>
 <div id="posts">
-<?php 
 
-     $index_page = 0;
-    if( isset( $_GET["index_page"] ) ){
-        $index_page = $_GET["index_page"];
-    }
-
-?>
 <?php 
     $posts = getPostByTopic($topic_id);
 
@@ -49,12 +38,19 @@ if( isset($_POST['id'])){
 
             $html_post .= '<input type="submit" value="Créer un nouveau post">';
         $html_post .= '</form>';
-?>
-        Nombre de posts dans le sujet : <?php echo count($posts) ?>
-        <!-- Génération de la liste des pages -->
-<?php       $html_post .= '<ul>';
 
-        $nb_pages = ceil( countPosts() / POSTS_BY_PAGE );
+?>
+        Nombre de posts dans le sujet : <?php echo sizeof($posts); ?>
+        <!-- Génération de la liste des pages -->
+<?php      
+
+    $html_post .= '<ul>';
+    $index_page = 0;
+    if( isset( $_GET["index_page"] ) ){
+        $index_page = $_GET["index_page"];
+    }
+        $nb_pages = ceil( sizeof($posts) / POSTS_BY_PAGE );
+        
         
         for( $i=0; $i < $nb_pages; $i++ ){
 
@@ -74,7 +70,7 @@ if( isset($_POST['id'])){
         echo "<div> Aucun post trouvé ! </div>";
         $html_new_post="";    
         $html_new_post .= '<form action="?page=new_post" method="POST">';
-            $html_new_post .= '<input type="submit" value="Ecrire un post">';
+        $html_new_post .= '<input type="submit" value="Ecrire un post">';
         $html_new_post .= '</form>';
         echo $html_new_post;
     }

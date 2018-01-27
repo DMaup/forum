@@ -1,3 +1,4 @@
+
 <h1>    
     Bienvenue sur le FORUM "TP PHP" <br>
 </h1>
@@ -17,7 +18,11 @@
 
 <div id="home">
 
-<?php 
+<?php
+    if( isset($_GET["message"]) ){
+        echo "<div class='message'>" . $_GET["message"] . "</div>";
+    }
+ 
 
     $index_page = 0;
     if( isset( $_GET["index_page"] ) ){

@@ -8,7 +8,7 @@ define("DB_NAME", "forum");
 define("DB_USER", "root");
 define("DB_PASS", "root");
 
-define("POSTS_BY_PAGE", 6);
+define("POSTS_BY_PAGE", 8);
 
 // Grants
 define("CAN_CREATE_POST", 1);
@@ -129,6 +129,8 @@ function getUser( $username, $password ){
     mysqli_close( $connection );
 
     return $user;
+
+
 }
 
 function createUser( $new_user ){
@@ -255,6 +257,30 @@ function countTopicsByCat($b_cat){
 
     return $result["nb_topicsByCat"];
 }
+function createTopic( $new_topic ){
+    $connection = getConnection();
+    $current_user = $_SESSION["user"]["id"];
+    $cat_id = $_SESSION["newtopic"]["cat_id"];
+    
+    $sql = "INSERT INTO topics VALUES (null, ?, null, ?, ?)";
+
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( 
+        $statement, 
+        "sis", 
+        $new_topic["new_topic_label"],
+        $cat_id,
+        $current_user
+    );
+
+    mysqli_stmt_execute( $statement );
+    $topic_inserted = mysqli_stmt_affected_rows( $statement );
+
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+    
+    return (boolean)($topic_inserted > 0);
+}
 
 
 
@@ -303,11 +329,11 @@ function countPosts(){
     return $result["nb_posts"];
 }
 
-function countPostsByTopic($b_topic){
+function countPostsByTopic(){
 
     $connection = getConnection();
-    $sql = "SELECT COUNT(*) as nb_postsByTopic FROM posts WHERE post_topic=?";
-    $results = mysqli_query( $connection, "i", $sql );
+    $sql = "SELECT COUNT * as nb_postsByTopic FROM posts WHERE post_topic=?";
+    $result = mysqli_query( $connection, "s", $sql );
     $result = mysqli_fetch_assoc( $results );
     mysqli_close( $connection );
 

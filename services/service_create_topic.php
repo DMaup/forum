@@ -1,30 +1,33 @@
 <?php 
 
 if( 
-    isset( $_POST["topic_id"] )
-    && isset( $_POST["topic_label"] )
-     ){
+    isset( $_POST["new_topic_label"] )
+    && isset( $_POST["cat_id"] )){
 
-    $topic_id = $_POST["topic_id"];
-    $topic_label = $_POST["topic_label"];
+    $new_topic_label = $_POST["new_topic_label"];
+    $new_topic_cat = $_POST["cat_id"];
     
-
-    $_SESSION["newtopic"] = $_POST;
-    
+    $_SESSION["newtopic"] = $_POST;     
+   
     //Check label
-    if( strlen( $topic_label ) < 4 || strlen( $topic_label ) > 20 ){
-        $message = "Le titre du sujet doit contenir de 4 à 20 caractères !";
-        $_SESSION["newtopic"]["topic_label"] = "";
+    if( strlen( $new_topic_label ) < 4 || strlen( $new_topic_label ) > 60 ){
+        $message = "Le titre du sujet doit contenir de 4 à 60 caractères !";
+        $_SESSION["newtopic"]["new_topic_label"] = "";
     }
+
+    // else if( strlen( $new_topic_description ) < 4 || strlen( $new_topic_description ) > 60 ){
+    //     $message = "La descrition du sujet doit contenir de 4 à 60 caractères !";
+    //     $_SESSION["newtopic"]["new_topic_description"] = "";
+    // }
 
     // All ok
     else {
 
         $new_topic = [
-            "topic_id" => $topic_id,
-            "topic_label" => $topic_label  
+            "new_topic_label" => $new_topic_label,
+            // "new_topic_description" => $new_topic_description  
         ];
-                
+              
         if( createTopic( $new_topic ) ){
             $message = "Le sujet a bien été créé !";
             unset( $_SESSION["newtopic"] );
@@ -40,4 +43,4 @@ else {
     $message = "Il manque des données !";
 }
 
-header("Location: ?page=topics&message=". $message);
+header("Location: ?page=home&message=". $message);

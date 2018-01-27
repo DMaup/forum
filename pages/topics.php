@@ -12,9 +12,10 @@ if( isset($_POST['cat_title'])){
     echo $cat_title;
 }
 if( isset($_POST['cat_id'])){
-    $cat_id=($_POST['cat_id']);
+        $cat_id=($_POST['cat_id']);
     
 }
+
 ?>
 <br>
 <div id="topics">
@@ -51,11 +52,12 @@ if( isset($_POST['cat_id'])){
         echo "<div> Aucun sujet ! </div>";
     }
         $html_new_topic="";    
-        $html_new_topic .= '<form action="?service=create_topic" method="POST">';
-            $html_new_topic .= '<input type="submit" value="Créer un sujet">';
+        $html_new_topic .= '<form action="?page=new_topic" method="POST">';
+        $html_new_topic .= '<input type="hidden" name="cat_id" value=' . $cat_id . '>';
+        $html_new_topic .= '<input type="submit" value="Créer un sujet">';
         $html_new_topic .= '</form>';
 
         echo $html_new_topic;
     ?>
-    Nombre de sujet(s) dans la catégorie  : <?php echo count($topics) ?>
+    Nombre de sujet(s) dans la catégorie  : <?php echo sizeof($topics) ?>
 </div>
