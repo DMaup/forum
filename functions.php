@@ -31,7 +31,6 @@ function isLogged( $as_role = USER ){
         isset( $_SESSION["user"] ) 
         && $_SESSION["user"]["id_role"] <= $as_role 
     );
-
 }
 
 function connectionRequired( $as_role = USER ){
@@ -48,7 +47,6 @@ function connectionRequired( $as_role = USER ){
         die();
 
     }
-
 }
 
 // $_SESSION["user"] = id / username / password / id_role
@@ -80,7 +78,6 @@ function getConnection(){
     }
 
     return $connection;
-
 }
 
 /**** USERS *****/
@@ -182,25 +179,59 @@ function getCategories (){
 
 /***** TOPICS ******/
 
-function getTopics (){
+// function getTopics (){
+
+//     $connection = getConnection();
+
+//     $sql = "SELECT topic_id, topic_label, topic_date FROM topics";
+    
+//     $topics = mysqli_query($connection, $sql);
+
+//     mysqli_close( $connection );
+    
+//     $topic = [];
+    
+//     while( $row = mysqli_fetch_assoc($topics) ){
+
+//         $topic[] = $row;
+
+//     }
+    
+//     return $topic;
+// }
+
+function getTopicsByCat($b_cat){
 
     $connection = getConnection();
-
-    $sql = "SELECT topic_id, topic_label, topic_date FROM topics";
     
-    $topics = mysqli_query($connection, $sql);
+    $sql = "SELECT topics.topic_id, topics.topic_label, topics.topic_date, categories.cat_title, users.username
+    FROM topics
+    INNER JOIN users ON users.user_id = topics.topic_writer
+    INNER JOIN categories ON categories.cat_id = topics.topic_cat
+    WHERE categories.cat_id=?";
+            
 
-    mysqli_close( $connection );
-    
-    $topic = [];
-    
-    while( $row = mysqli_fetch_assoc($topics) ){
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $b_cat );
+    mysqli_stmt_execute( $statement );
+    mysqli_stmt_bind_result( $statement, $b_id, $b_label, $b_date, $b_cat, $b_writer);
+    $topics = [];
+    while( mysqli_stmt_fetch( $statement ) ) {
 
-        $topic[] = $row;
-
+    $topics[] = [
+        "id" => $b_id,
+        "label" => $b_label,
+        "date" => $b_date,
+        "cat" => $b_cat,
+        "writer" => $b_writer         
+    ];
     }
     
-    return $topic;
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+
+    return $topics;
+
 }
 
 function countTopics(){
@@ -225,71 +256,41 @@ function countTopicsByCat($b_cat){
     return $result["nb_topicsByCat"];
 }
 
-function getTopicsByCat($b_cat){
 
-    $connection = getConnection();
-    
-    $sql = "SELECT topics.topic_id, topics.topic_label, topics.topic_date, categories.cat_title, users.username
-    FROM topics
-    INNER JOIN users ON users.user_id = topics.topic_writer
-    INNER JOIN categories ON categories.cat_id = topics.topic_cat
-    WHERE categories.cat_id=?";
-            
-
-    $statement = mysqli_prepare( $connection, $sql );
-    mysqli_stmt_bind_param( $statement, "i", $b_cat );
-    mysqli_stmt_execute( $statement );
-    mysqli_stmt_bind_result( $statement, $b_id, $b_label, $b_date, $b_cat, $b_writer);
-    mysqli_stmt_fetch( $statement );
-
-    $topic[] = [
-        "id" => $b_id,
-        "label" => $b_label,
-        "date" => $b_date,
-        "cat" => $b_cat,
-        "writer" => $b_writer         
-    ];
-    
-    mysqli_stmt_close( $statement );
-    mysqli_close( $connection );
-
-    return $topic;
-
-}
 
 /***** POSTS ******/
 
-function getPosts( $index_page = 0 ){
+// function getPosts( $index_page = 0 ){
 
-    $connection = getConnection();
-    $sql = "SELECT post_id, post_title, post_writer, post_text, post_date FROM posts LIMIT ?, ?";
+//     $connection = getConnection();
+//     $sql = "SELECT post_id, post_title, post_writer, post_text, post_date FROM posts LIMIT ?, ?";
 
-    $start_index = $index_page * POSTS_BY_PAGE;
-    $end_index = POSTS_BY_PAGE;
+//     $start_index = $index_page * POSTS_BY_PAGE;
+//     $end_index = POSTS_BY_PAGE;
 
-    $statement = mysqli_prepare( $connection, $sql );
-    mysqli_stmt_bind_param( $statement, "ii", $start_index, $end_index);
-    mysqli_stmt_execute( $statement );
-    mysqli_stmt_bind_result( $statement, $b_id, $b_title, $b_writer, $b_text, $b_date );
+//     $statement = mysqli_prepare( $connection, $sql );
+//     mysqli_stmt_bind_param( $statement, "ii", $start_index, $end_index);
+//     mysqli_stmt_execute( $statement );
+//     mysqli_stmt_bind_result( $statement, $b_id, $b_title, $b_writer, $b_text, $b_date );
 
-    $posts = [];
-    while( mysqli_stmt_fetch( $statement ) ) {
+//     $posts = [];
+//     while( mysqli_stmt_fetch( $statement ) ) {
         
-        $posts[] = [
-            "id" => $b_id,
-            "title" => utf8_encode( $b_title ),
-            "writer" => utf8_encode($b_writer),
-            "text" => utf8_encode( $b_text ),
-            "date" => $b_date
-        ];
+//         $posts[] = [
+//             "id" => $b_id,
+//             "title" => utf8_encode( $b_title ),
+//             "writer" => utf8_encode($b_writer),
+//             "text" => utf8_encode( $b_text ),
+//             "date" => $b_date
+//         ];
 
-    }
+//     }
     
-    mysqli_stmt_close( $statement );
-    mysqli_close( $connection );
+//     mysqli_stmt_close( $statement );
+//     mysqli_close( $connection );
 
-    return $posts;
-}
+//     return $posts;
+// }
 
 function countPosts(){
 
@@ -302,14 +303,23 @@ function countPosts(){
     return $result["nb_posts"];
 }
 
-function getPostByTopic($b_topic, $index_page = 0){
+function countPostsByTopic($b_topic){
 
     $connection = getConnection();
-    $sql = "SELECT post_id, post_title, post_writer, post_text, post_topics, post_date
+    $sql = "SELECT COUNT(*) as nb_postsByTopic FROM posts WHERE post_topic=?";
+    $results = mysqli_query( $connection, "i", $sql );
+    $result = mysqli_fetch_assoc( $results );
+    mysqli_close( $connection );
+
+    return $result["nb_postsByTopic"];
+}
+
+function getPostByTopic($b_topic, $index_page = 0){
+    $connection = getConnection();
+    $sql = "SELECT post_id, post_title, post_writer, post_text, post_topic, post_date
     FROM posts
-    WHERE post_topics=?
+    WHERE post_topic=?
     LIMIT ?, ?";
-    //debug($sql);
 
     $start_index = $index_page * POSTS_BY_PAGE;
     $end_index = POSTS_BY_PAGE;
@@ -318,9 +328,10 @@ function getPostByTopic($b_topic, $index_page = 0){
     mysqli_stmt_bind_param( $statement, "iii", $b_topic, $start_index, $end_index);
     mysqli_stmt_execute( $statement );
     mysqli_stmt_bind_result( $statement, $b_id, $b_title, $b_writer, $b_text, $b_topic, $b_date );
-    mysqli_stmt_fetch( $statement );
+    $posts = [];
+    while( mysqli_stmt_fetch( $statement ) ) {
 
-    $post[] = [
+    $posts[] = [
         "id" => $b_id,
         "title" => $b_title,
         "writer" => $b_writer,
@@ -328,97 +339,97 @@ function getPostByTopic($b_topic, $index_page = 0){
         "topic" => $b_topic,
         "date" => $b_date
     ];
-
-    mysqli_stmt_close( $statement );
-    mysqli_close( $connection );
-
-    return $post;
-
-}
-
-function update_post( $id, $label, $price, $image_url = false ){
-
-    $connection = getConnection();
-    $statement;
-    
-    if( $image_url != false ){
-
-        $sql = "UPDATE products SET label=?, price=?, image_url=? WHERE id=?";
-        $statement = mysqli_prepare( $connection, $sql );
-        mysqli_stmt_bind_param( $statement, "sdsi", $label, $price, $image_url, $id );
-
-    }
-    else {
-
-        $sql = "UPDATE products SET label=?, price=? WHERE id=?";
-        $statement = mysqli_prepare( $connection, $sql );
-        mysqli_stmt_bind_param( $statement, "sdi", $label, $price, $id );
-
     }
 
-    mysqli_stmt_execute( $statement );
-
-    // -1 erreur | 0 aucun changement | > 0 nombre de lignes affectées
-    $edited = mysqli_stmt_affected_rows( $statement );
-    
     mysqli_stmt_close( $statement );
     mysqli_close( $connection );
 
-    return $edited;
-
+    return $posts;
 }
 
-function deletePostById( $id ){
+// function update_post( $id, $label, $price, $image_url = false ){
 
-    $connection = getConnection();
-    $sql = "DELETE FROM products WHERE id=?";
-    $statement = mysqli_prepare( $connection, $sql );
-    mysqli_stmt_bind_param( $statement, "i", $id );
-    mysqli_stmt_execute( $statement );
+//     $connection = getConnection();
+//     $statement;
     
-    $deleted = mysqli_stmt_affected_rows( $statement );
+//     if( $image_url != false ){
 
-    mysqli_stmt_close( $statement );
-    mysqli_close( $connection );
+//         $sql = "UPDATE products SET label=?, price=?, image_url=? WHERE id=?";
+//         $statement = mysqli_prepare( $connection, $sql );
+//         mysqli_stmt_bind_param( $statement, "sdsi", $label, $price, $image_url, $id );
 
-    return (boolean)($deleted > 0);
+//     }
+//     else {
 
-}
+//         $sql = "UPDATE products SET label=?, price=? WHERE id=?";
+//         $statement = mysqli_prepare( $connection, $sql );
+//         mysqli_stmt_bind_param( $statement, "sdi", $label, $price, $id );
 
+//     }
 
- 
-    $post = [
-        "title",
-        "writer",
-        "text",
+//     mysqli_stmt_execute( $statement );
+
+//     // -1 erreur | 0 aucun changement | > 0 nombre de lignes affectées
+//     $edited = mysqli_stmt_affected_rows( $statement );
+    
+//     mysqli_stmt_close( $statement );
+//     mysqli_close( $connection );
+
+//     return $edited;
+
+// }
+
+// function deletePostById( $id ){
+
+//     $connection = getConnection();
+//     $sql = "DELETE FROM products WHERE id=?";
+//     $statement = mysqli_prepare( $connection, $sql );
+//     mysqli_stmt_bind_param( $statement, "i", $id );
+//     mysqli_stmt_execute( $statement );
+    
+//     $deleted = mysqli_stmt_affected_rows( $statement );
+
+//     mysqli_stmt_close( $statement );
+//     mysqli_close( $connection );
+
+//     return (boolean)($deleted > 0);
+// }
+
+    // $post = [
+    //     "title",
+    //     "writer",
+    //     "text",
         
-    ];
+    // ];
 
-function createPost( $new_post ){
+    function createPost( $new_post ){
+        $connection = getConnection();
+        $current_user = $_SESSION["user"]["username"];
+        $topic_id = 2;
+        $cat_id = 1;
 
-    $connection = getConnection();
-    $current_user = $_SESSION["user"]["username"];
-    $sql = "INSERT INTO posts VALUES (null, ?, ?, null, ?, ?)";
+        $sql = "INSERT INTO posts VALUES (null, ?, ?, null, ?, ?, ?)";
 
-    $statement = mysqli_prepare( $connection, $sql );
-    mysqli_stmt_bind_param( 
-        $statement, 
-        "ssss", 
-        $new_post["post_title"],
-        $current_user,
-        $new_post["post_text"],
-        $topic_id
-    );
+        $statement = mysqli_prepare( $connection, $sql );
+        mysqli_stmt_bind_param( 
+            $statement, 
+            "issss",
+            $topic_id, 
+            $new_post["post_title"],
+            $current_user,
+            $new_post["post_text"],
+            $cat_id
+        );
 
-    mysqli_stmt_execute( $statement );
-    $post_inserted = mysqli_stmt_affected_rows( $statement );
+        mysqli_stmt_execute( $statement );
+        $post_inserted = mysqli_stmt_affected_rows( $statement );
 
-    mysqli_stmt_close( $statement );
-    mysqli_close( $connection );
-
-    return (boolean)($post_inserted > 0);
-
-}
+        mysqli_stmt_close( $statement );
+        mysqli_close( $connection );
+        
+        return (boolean)($post_inserted > 0);
+    }
+    
 
 function debug( $arg, $printr = false ){
     

@@ -1,5 +1,4 @@
 <?php
-
 if( isset($_GET["message"]) ){
     echo "<div class='message'>" . $_GET["message"] . "</div>";
 }
@@ -20,14 +19,12 @@ if( isset($_POST['cat_id'])){
 <br>
 <div id="topics">
 <?php 
-
      $index_page = 0;
     if( isset( $_GET["index_page"] ) ){
         $index_page = $_GET["index_page"];
     }
-
-    ?>
-    <?php 
+?>
+<?php 
     $topics = getTopicsByCat($cat_id);
     
     if( count($topics) ){
@@ -39,20 +36,26 @@ if( isset($_POST['cat_id'])){
                 $html_topic .= '<h4>Auteur:  ' . $topic["writer"] . '</h4>';  
                 $html_topic .= '<h4>Date de création:  ' . $topic["date"] . '</h4>';             
                 $html_topic .= '<h4>' . $topic["label"] . '</h4>';
-                $html_topic .= '<input type="hidden" name="id" value=' .$topic["id"] . '>';
+                $html_topic .= '<input type="hidden" name="id" value=' . $topic["id"] . '>';
                 $html_topic .= '<input type="submit" value="Lire les posts">';
-                $html_topic .= '<input type="submit" value="Créer un sujet">';
                 $html_topic .= '</div>';   
         
             $html_topic .= '</form>';
         }
         
         echo $html_topic;
+
+        
     }
     else {
         echo "<div> Aucun sujet ! </div>";
     }
+        $html_new_topic="";    
+        $html_new_topic .= '<form action="?service=create_topic" method="POST">';
+            $html_new_topic .= '<input type="submit" value="Créer un sujet">';
+        $html_new_topic .= '</form>';
+
+        echo $html_new_topic;
     ?>
-    Nombre de sujets dans la catégorie  : <?php echo count($topics) ?>
-    </div>
-    
+    Nombre de sujet(s) dans la catégorie  : <?php echo count($topics) ?>
+</div>

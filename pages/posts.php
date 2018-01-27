@@ -72,6 +72,11 @@ if( isset($_POST['id'])){
     }
     else {
         echo "<div> Aucun post trouvé ! </div>";
+        $html_new_post="";    
+        $html_new_post .= '<form action="?page=new_post" method="POST">';
+            $html_new_post .= '<input type="submit" value="Ecrire un post">';
+        $html_new_post .= '</form>';
+        echo $html_new_post;
     }
 ?>
 </div>

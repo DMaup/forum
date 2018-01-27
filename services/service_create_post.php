@@ -30,7 +30,7 @@ if(
             "post_title" => $post_title,
             "post_text" => $post_text  
         ];
-                
+       
         if( createPost( $new_post ) ){
             $message = "Le post a bien été ajouté !";
             unset( $_SESSION["newpost"] );

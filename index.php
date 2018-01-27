@@ -18,26 +18,6 @@
             case "create_user":
                 include "services/service_create_user.php";
                 break;
-            // case "choose_cat":
-            //     connectionRequired( MODERATOR, ADMIN );
-            //     include "service/service_choose_cat.php";
-            //     break;
-            case "create_post":
-                connectionRequired( USER, MODERATOR, ADMIN );
-                include "services/service_create_post.php";
-                break;   
-            case "edit_post":
-                connectionRequired( USER, MODERATOR, ADMIN );
-                include "services/service_edit_post.php";
-                break;
-            case "delete_own_post":
-                connectionRequired( USER, MODERATOR, ADMIN );
-                include "services/service_delete_own_post.php";
-                break;
-            case "delete_all_post":
-                connectionRequired( MODERATOR, ADMIN );
-                include "services/service_delete_all_posts.php";
-                break;
             case "create_topic":
                 connectionRequired( USER, MODERATOR, ADMIN );
                 include "services/service_create_topic.php";
@@ -46,18 +26,27 @@
                 connectionRequired( ADMIN );
                 include "services/service_delete_topic.php";
                 break;
+            case "create_post":
+                connectionRequired( USER, MODERATOR, ADMIN );
+                include "services/service_create_post.php";
+                break;
+            case "delete_post":
+                connectionRequired( USER, MODERATOR, ADMIN );
+                include "services/service_delete_post.php";
+                break;   
+            case "edit_post":
+                connectionRequired( USER, MODERATOR, ADMIN );
+                include "services/service_edit_post.php";
+                break;       
             case "disconnect":
                 connectionRequired( USER, MODERATOR, ADMIN );
                 include "services/service_disconnect.php";
                 break;
-                
             default :
                 header("Location: ?page=home");
-
         }
         
         die();
-
     }
 
     /* Pages */
@@ -73,27 +62,31 @@
 
         case "home":            
             $page_file = "pages/home.php";
+            break;
+        case "inscription":            
+            $page_file = "pages/inscription.php";
             break;        
         case "login":
             $page_file = "pages/login.php";
             break;
+        case "categories":
+            $page_file = "pages/categories.php";
+            break;
+        case "topics":
+            $page_file = "pages/topics.php";
+            break;
+        case "new_topic":
+            connectionRequired(  USER, MODERATOR, ADMIN );
+            $page_file = "pages/new_topic.php";
+            break;
         case "posts":
-            //connectionRequired();
             $page_file = "pages/posts.php";
             break;
         case "new_post":
             connectionRequired( USER, MODERATOR, ADMIN );
             $page_file = "pages/new_post.php";
-            break;
-        case "topics":
-            //connectionRequired(  USER, MODERATOR, ADMIN );
-            $page_file = "pages/topics.php";
-            break;
-        case "categories":
-            connectionRequired( MODERATOR, ADMIN );
-            $page_file = "pages/categories.php";
-            break;
-        case "edit":
+            break;     
+        case "edit_post":
             connectionRequired( USER, MODERATOR, ADMIN );
             $page_file = "pages/edit.php";
             break;
@@ -101,12 +94,8 @@
             connectionRequired( ADMIN );
             $page_file = "pages/admin.php";
             break;
-        case "inscription":            
-            $page_file = "pages/inscription.php";
-            break;
         default:
             $page_file = "pages/404.php";
-
     }
 
     include "commons/header.php";

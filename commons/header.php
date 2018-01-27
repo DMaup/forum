@@ -39,10 +39,10 @@
                     </li>
                         <?php } ?>
                         <?php if( isLogged() ) { ?>
-                    <li> 
+                    <!-- <li> 
                         <a href="?page=posts"> Posts </a>
-                    </li>
-                        <?php } ?>
+                    </li> -->
+                        <!-- <?php } ?>
                         <?php if( isLogged() ) { ?>
                     <li> 
                         <a href="?page=categories"> Catégories </a>
@@ -55,7 +55,7 @@
                         <?php } ?>
                     <li>
                         <a href="?page=edit"> Editer </a>
-                    </li>                 
+                    </li>                  -->
                         <?php if( isLogged( ADMIN ) ) { ?>
                     <li> 
                         <a href="?page=admin"> Gestion des Utilisateurs </a>
