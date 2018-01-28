@@ -3,18 +3,18 @@ if( isset($_GET["id"]) ){
 
     $id = $_GET["id"];
 
-    if( deleteProductById( $id ) ){
-        $message = "Suppression réussie !";
+    if( deletePostById( $id ) ){
+        $message = "Post supprimé !";
     }
     else {
-        $message = "Erreur lors de la supression";
+        $message = "Erreur lors de la suppression";
     }
 
-    header("Location: ?page=admin&message=".$message);
+    header("Location: ?page=home&message=".$message);
     die();
 
 }
 else {
-    header("Location: ?page=admin");
+    header("Location: ?page=home");
     die();
 }

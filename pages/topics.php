@@ -1,7 +1,9 @@
 <?php
 if( isset($_GET["message"]) ){
     echo "<div class='message'>" . $_GET["message"] . "</div>";
+
 }
+
 ?>
 
 <a href="?page=home"> Home </a> <br>
@@ -13,8 +15,9 @@ if( isset($_POST['cat_title'])){
 }
 if( isset($_POST['cat_id'])){
         $cat_id=($_POST['cat_id']);
-    
+        
 }
+else $cat_id='cat_id';
 
 ?>
 <br>
@@ -31,13 +34,14 @@ if( isset($_POST['cat_id'])){
     if( count($topics) ){
         $html_topic="";
         foreach( $topics as $key => $topic ) {
+
             $html_topic .= '<form action="?page=posts" method="POST">';         
                     
                 $html_topic .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';
                 $html_topic .= '<h4>Auteur:  ' . $topic["writer"] . '</h4>';  
                 $html_topic .= '<h4>Date de création:  ' . $topic["date"] . '</h4>';             
                 $html_topic .= '<h4>' . $topic["label"] . '</h4>';
-                $html_topic .= '<input type="hidden" name="id" value=' . $topic["id"] . '>';
+                $html_topic .= '<input type="hidden" name="topic_id" value=' . $topic["topic_id"] . '>';
                 $html_topic .= '<input type="submit" value="Lire les posts">';
                 $html_topic .= '</div>';   
         

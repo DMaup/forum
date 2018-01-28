@@ -1,26 +1,26 @@
 <?php 
-
-if( 
-    isset( $_POST["post_title"] )
+       
+if( isset( $_POST["post_title"] )
     && isset( $_POST["post_text"] )
-     ){
+    && isset( $_POST["post_topic"] )){
 
     $post_title = $_POST["post_title"];
     $post_text = $_POST["post_text"];
-    
-
+    $post_topic = $_POST["post_topic"];
+        
     $_SESSION["newpost"] = $_POST;
+    
     
     //Check title
     if( strlen( $post_title ) < 4 || strlen( $post_title ) > 20 ){
         $message = "Le titre doit contenir de 4 à 20 caractères !";
-        $_SESSION["newpost"]["post_title"] = "";
+        $_SESSION["newpost"]["new_post_title"] = "";
     }
 
     //Check text
     else if( strlen( $post_text ) < 20 || strlen( $post_text ) > 1000 ){
         $message = "Le texte doit contenir de 4 à 1000 caractères !";
-        $_SESSION["newpost"]["post_text"] = "";        
+        $_SESSION["newpost"]["new_post_text"] = "";        
     }
 
     // All ok
@@ -28,7 +28,8 @@ if(
 
         $new_post = [
             "post_title" => $post_title,
-            "post_text" => $post_text  
+            "post_text" => $post_text,
+            "post_topic" => $post_topic
         ];
        
         if( createPost( $new_post ) ){
@@ -46,4 +47,4 @@ else {
     $message = "Il manque des données !";
 }
 
-header("Location: ?page=posts&message=". $message);
+header("Location: ?page=home&message=". $message);

@@ -11,12 +11,12 @@ define("DB_PASS", "root");
 define("POSTS_BY_PAGE", 8);
 
 // Grants
-define("CAN_CREATE_POST", 1);
-define("CAN_INTEGER_POST", 2);
-define("CAN_EDIT_OWN_POST", 3);
-define("CAN_DELETE_OWN_POST", 4);
-define("CAN_DELETE_ALL_POSTS", 5);
-define("CAN_CANCEL_TOPIC", 6);
+define("CAN_CREATE_TOPIC", 1);
+define("CAN_DELETE_TOPIC", 2);
+define("CAN_CREATE_POST", 3);
+define("CAN_EDIT_OWN_POST", 4);
+define("CAN_DELETE_OWN_POST", 5);
+define("CAN_DELETE_ALL_POSTS", 6);
 
 // Roles
 define("ADMIN", 1);
@@ -221,7 +221,7 @@ function getTopicsByCat($b_cat){
     while( mysqli_stmt_fetch( $statement ) ) {
 
     $topics[] = [
-        "id" => $b_id,
+        "topic_id" => $b_id,
         "label" => $b_label,
         "date" => $b_date,
         "cat" => $b_cat,
@@ -405,21 +405,21 @@ function getPostByTopic($b_topic, $index_page = 0){
 
 // }
 
-// function deletePostById( $id ){
+function deletePostById( $id ){
 
-//     $connection = getConnection();
-//     $sql = "DELETE FROM products WHERE id=?";
-//     $statement = mysqli_prepare( $connection, $sql );
-//     mysqli_stmt_bind_param( $statement, "i", $id );
-//     mysqli_stmt_execute( $statement );
+    $connection = getConnection();
+    $sql = "DELETE FROM posts WHERE id=?";
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $id );
+    mysqli_stmt_execute( $statement );
     
-//     $deleted = mysqli_stmt_affected_rows( $statement );
+    $deleted = mysqli_stmt_affected_rows( $statement );
 
-//     mysqli_stmt_close( $statement );
-//     mysqli_close( $connection );
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
 
-//     return (boolean)($deleted > 0);
-// }
+    return (boolean)($deleted > 0);
+}
 
     // $post = [
     //     "title",
@@ -431,20 +431,17 @@ function getPostByTopic($b_topic, $index_page = 0){
     function createPost( $new_post ){
         $connection = getConnection();
         $current_user = $_SESSION["user"]["username"];
-        $topic_id = 2;
-        $cat_id = 1;
-
-        $sql = "INSERT INTO posts VALUES (null, ?, ?, null, ?, ?, ?)";
+        
+        $sql = "INSERT INTO posts VALUES (null, ?, ?, null, ?, ?)";
 
         $statement = mysqli_prepare( $connection, $sql );
         mysqli_stmt_bind_param( 
             $statement, 
-            "issss",
-            $topic_id, 
+            "isss",
+            $new_post["post_topic"],
             $new_post["post_title"],
             $current_user,
-            $new_post["post_text"],
-            $cat_id
+            $new_post["post_text"]
         );
 
         mysqli_stmt_execute( $statement );

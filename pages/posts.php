@@ -8,8 +8,12 @@ if( isset($_GET["message"]) ){
 <a href="?page=home"> Home </a> <br>
 
 <?php 
-if( isset($_POST['id'])){
-    $topic_id=($_POST['id']);
+if( isset($_POST['topic_title'])){
+    $topic_title=($_POST['topic_title']);
+    echo $topic_title;
+}    
+if( isset($_POST['topic_id'])){
+    $topic_id=($_POST['topic_id']);
     
 }
 ?>
@@ -20,7 +24,7 @@ if( isset($_POST['id'])){
     $posts = getPostByTopic($topic_id);
 
     if( count($posts) ){
-
+            
         $html_post = '<form action="?page=new_post" method="POST">';
 
             // Génération des posts
@@ -32,10 +36,18 @@ if( isset($_POST['id'])){
                     $html_post .= '<h4>' . $post["writer"] . '</h4>';
                     $html_post .= '<p>' . $post["text"] . ' </p>';
                     $html_post .= '<p>' . $post["date"] . ' </p>';
+                    $html_post .= '<input type="hidden" name="topic_id" value=' . $post["topic"] . '>';
+                    
+                        // if ($post["writer"]==$_SESSION["user"]["username"]){
+                        //         $html_post .= '<a href="?page=posts"> Supprimer ce post </a>';
+                        // }
+                       
+                    
                 $html_post .= '</div>';  
 
             }
-
+            
+            $html_post .= '<input type="hidden" name="topic" value=' . $post["topic"] . '>';
             $html_post .= '<input type="submit" value="Créer un nouveau post">';
         $html_post .= '</form>';
 
@@ -70,7 +82,8 @@ if( isset($_POST['id'])){
         echo "<div> Aucun post trouvé ! </div>";
         $html_new_post="";    
         $html_new_post .= '<form action="?page=new_post" method="POST">';
-        $html_new_post .= '<input type="submit" value="Ecrire un post">';
+        $html_new_post .= '<input type="hidden" name="topic" value=' . $topic_id . '>';
+        $html_new_post .= '<input type="submit" value="Créer un post">';
         $html_new_post .= '</form>';
         echo $html_new_post;
     }

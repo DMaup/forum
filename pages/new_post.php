@@ -8,6 +8,11 @@ if( isset($_GET["message"]) ){
     echo "<div class='message'>" . $_GET["message"] . "</div>";
 }
 
+if( isset($_POST['topic'])){
+    $topic_id=($_POST['topic']);
+
+}
+
 ?>
 
 <form action="?service=create_post" method="POST">   
@@ -22,6 +27,7 @@ if( isset($_GET["message"]) ){
         <textarea name="post_text" id="post_text" value="<?php $post_text ?>" ></textarea>
     </label>
     <br>
+        <input type="hidden" name="post_topic" value="<?php echo $topic_id ?>" >
         <input type="submit" value="Publier">
 
 </form>
