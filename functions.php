@@ -8,7 +8,7 @@ define("DB_NAME", "forum");
 define("DB_USER", "root");
 define("DB_PASS", "root");
 
-define("POSTS_BY_PAGE", 8);
+define("POSTS_BY_PAGE", 3);
 
 // Grants
 define("CAN_CREATE_TOPIC", 1);
@@ -362,27 +362,24 @@ function countPostsByTopic( $topic_id ){
 function getPostById( $id ){
 
     $connection = getConnection();
-    $sql = "SELECT * FROM post WHERE post_id=?";
+    $sql = "SELECT post_text FROM posts WHERE post_id=?";
 
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( $statement, "i", $id );
     mysqli_stmt_execute( $statement );
-    mysqli_stmt_bind_result( $statement, $id, $label, $price, $image_url );
+    mysqli_stmt_bind_result( $statement, $b_text );
     mysqli_stmt_fetch( $statement );
 
     $post = [
-        "id" => $b_id,
-        "title" => $b_title,
-        "writer" => $b_writer,
-        "text" => $b_text,
-        "topic" => $b_topic,
-        "date" => $b_date
+        "id" => $id,
+        "text" => $b_text      
     ];
 
     mysqli_stmt_close( $statement );
     mysqli_close( $connection );
 
     return $post;
+    
 
 }
 
@@ -419,37 +416,27 @@ function getPostByTopic($b_topic, $index_page = 0){
     return $posts;
 }
 
-// function update_post( $id, $label, $price, $image_url = false ){
+function update_post( $text, $id){
 
-//     $connection = getConnection();
-//     $statement;
+    $connection = getConnection();
+    $statement;
     
-//     if( $image_url != false ){
+    $sql = "UPDATE posts SET post_text=? WHERE post_id=?";
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "s", $id);
+    mysqli_stmt_execute( $statement );
+   
 
-//         $sql = "UPDATE products SET label=?, price=?, image_url=? WHERE id=?";
-//         $statement = mysqli_prepare( $connection, $sql );
-//         mysqli_stmt_bind_param( $statement, "sdsi", $label, $price, $image_url, $id );
-
-//     }
-//     else {
-
-//         $sql = "UPDATE products SET label=?, price=? WHERE id=?";
-//         $statement = mysqli_prepare( $connection, $sql );
-//         mysqli_stmt_bind_param( $statement, "sdi", $label, $price, $id );
-
-//     }
-
-//     mysqli_stmt_execute( $statement );
-
-//     // -1 erreur | 0 aucun changement | > 0 nombre de lignes affectées
-//     $edited = mysqli_stmt_affected_rows( $statement );
+    // -1 erreur | 0 aucun changement | > 0 nombre de lignes affectées
+    $edited = mysqli_stmt_affected_rows( $statement );
     
-//     mysqli_stmt_close( $statement );
-//     mysqli_close( $connection );
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+    debug ($edited);
+    return $edited;
 
-//     return $edited;
 
-// }
+}
 
 function deletePostById( $id ){
 

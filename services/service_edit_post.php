@@ -1,87 +1,49 @@
 <?php 
-if( isset( $_GET["id"] ) 
-    && isset( $_POST["label"] ) 
-    && isset( $_POST["price"] )
-){
-    
-    $id = $_GET["id"];
-    $label = $_POST["label"];
-    $price = $_POST["price"];
+if( isset( $_GET["post_id"] ) ){    
+    $id = $_GET["post_id"];
+    $text = $_POST["text"];
+    $error = false;    
 
-    $image = $_FILES["image"];
-    $error = false;
-    $update_image = false;
-
-    //Check label
-    if( strlen( $label ) < 1 || strlen( $label ) > 255 ){
-        $message = "Nombre de caractères incorrect pour le label !";
+    //Check text
+    if( strlen( $text ) < 10 || strlen( $text ) > 1000 ){
+        $message = "Le texte doit contenir de 10 à 1000 caractères !";       
         $error = true;
-    }
-
-    //Check price
-    if( !filter_var( $price, FILTER_VALIDATE_FLOAT ) ){
-        $message = "Le prix doit être un nombre.";
-        $error = true;
-    }
-
-    if( strlen( $image["name"] ) > 0 ) {
-
-        if( 
-            $image["type"] != "image/jpeg"
-            && $image["type"] != "image/jpg"
-            && $image["type"] != "image/png"
-        ) {
-            $message = "Le type de fichier est mauvais. Veuillez charger une image de type jpg, jpeg ou png.";
-            $error = true;
-        }
-        else if( $image["size"] > IMAGE_MAX_SIZE ) {
-            $message = "Le fichier est trop lourd. Il ne doit pas dépasser " . ( IMAGE_MAX_SIZE / 1024 / 1024 ) . " Mo.";
-            $error = true;
-        }
-        else {
-            $update_image = true;
-        }
-
     }
 
     //Gestion si erreur ou pas
     if( $error ){
-        header("Location: ?page=update_product&id=".$id."&message=".$message);
+        header("Location: ?page=edit_post&id=".$id."&message=".$message);
         die();
     }
     else {
 
-        $response;
-        if( $update_image ){
+        //$response;
+        // if( $update_post ){
 
-            $name = pathinfo( $image["name"], PATHINFO_FILENAME );
-            $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+           
+        //     $response = update_post( $id, $topic, $title, $date, $writer, $text );
 
-            $image_name = uniqid( $name . "_" ) . "." . $ext;
+            // if( $response > 0 ) {
+            //     move_uploaded_file( $image["tmp_name"], "products_image/" . $image_name );
+            //     $message = "Le post a été mis à jour";
+            // }
+            // else if( $response === 0 ) {
+            //     $message = "Aucun changement ou post non trouvé";
+            // }  
+            // else {
+            //     $message = "Erreur lors de la mise a jour";
+            // }
 
-            $response = update_product( $id, $label, $price, $image_name );
+        // }
+        // else {
 
-            if( $response > 0 ) {
-                move_uploaded_file( $image["tmp_name"], "products_image/" . $image_name );
-                $message = "Le produit a été mis à jour";
-            }
-            else if( $response === 0 ) {
-                $message = "Aucun changement ou produit non trouvé";
-            }  
-            else {
-                $message = "Erreur lors de la mise a jour";
-            }
-
-        }
-        else {
-
-            $response = update_product( $id, $label, $price );
+            $response = update_post( $text, $id);
 
             if( $response > 0 ) {
-                $message = "Le produit a été mis à jour";
+                $message = "Le post a été mis à jour";
             }
             else if( $response === 0 ){
-                $message = "Aucun changement ou produit non trouvé";
+                $message = "Aucun changement ou post non trouvé";
             }
             else {
                 $message = "Erreur lors de la mise a jour";
@@ -89,13 +51,13 @@ if( isset( $_GET["id"] )
 
         }
 
-        header("Location: ?page=admin&message=".$message);
+        header("Location: ?page=home&message=".$message);
         die();
 
-    }
+    
     
 }
 else {
-    header("Location: ?page=admin");
+    header("Location: ?page=home");
     die();
 }

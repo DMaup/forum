@@ -9,18 +9,19 @@ if( isset($_GET["message"]) ){
 <a href="?page=home"> Home </a> <br>
 Catégorie :
 <?php 
-if( isset($_POST['cat_title'])){
-    $cat_title=($_POST['cat_title']);
-    echo $cat_title;
-}
-if( isset($_POST['cat_id'])){
-        $cat_id=($_POST['cat_id']);
-        
-}
-else $cat_id='cat_id';
+    if( isset($_POST['cat_title'])){
+        $cat_title=($_POST['cat_title']);
+        echo $cat_title;
+    }
+    if( isset($_POST['cat_id'])){
+            $cat_id=($_POST['cat_id']);
+            
+    }
+    else $cat_id='cat_id';
 
 ?>
 <br>
+
 <div id="topics">
 <?php 
      $index_page = 0;
@@ -32,22 +33,24 @@ else $cat_id='cat_id';
     $topics = getTopicsByCat($cat_id);
     
     if( count($topics) ){
-    
-    
+        
         $html_topic="";
         
         foreach( $topics as $key => $topic ) {
             $topic_id = $topic["topic_id"];
+            
             $nb_posts = countPostsByTopic ($topic_id);
+            
                 if ($nb_posts >0){
     
             
             $html_topic .= '<form action="?page=posts" method="POST">';         
                   
                 $html_topic .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';
+                $html_topic .= '<h4>' . $topic["label"] . '</h4>';
+                $html_topic .= '<a>Nombre de post(s) dans ce sujet:  ' . $nb_posts . '</a>';
                 $html_topic .= '<h4>Auteur:  ' . $topic["writer"] . '</h4>';  
                 $html_topic .= '<h4>Date de création:  ' . $topic["date"] . '</h4>';             
-                $html_topic .= '<h4>' . $topic["label"] . '</h4>';
                 $html_topic .= '<input type="hidden" name="topic_id" value=' . $topic["topic_id"] . '>';
                 $html_topic .= '<input type="submit" value="Lire les posts">';
                 $html_topic .= '</div>';   
@@ -72,5 +75,5 @@ else $cat_id='cat_id';
 
         echo $html_new_topic;
     ?>
-    Nombre de sujet(s) dans la catégorie  : <?php echo sizeof($topics) ?>
+   
 </div>

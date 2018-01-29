@@ -88,7 +88,7 @@
             break;     
         case "edit_post":
             connectionRequired( USER, MODERATOR, ADMIN );
-            $page_file = "pages/edit.php";
+            $page_file = "pages/edit_post.php";
             break;
         case "admin":
             connectionRequired( ADMIN );
