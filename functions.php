@@ -129,8 +129,6 @@ function getUser( $username, $password ){
     mysqli_close( $connection );
 
     return $user;
-
-
 }
 
 function createUser( $new_user ){
@@ -154,7 +152,6 @@ function createUser( $new_user ){
     mysqli_close( $connection );
 
     return (boolean)($inserted > 0);
-
 }
 /***** CATEGORY ******/
 
@@ -233,7 +230,6 @@ function getTopicsByCat($b_cat){
     mysqli_close( $connection );
 
     return $topics;
-
 }
 
 function countTopics(){
@@ -257,6 +253,7 @@ function countTopicsByCat($b_cat){
 
     return $result["nb_topicsByCat"];
 }
+
 function createTopic( $new_topic ){
     $connection = getConnection();
     $current_user = $_SESSION["user"]["id"];
@@ -267,7 +264,7 @@ function createTopic( $new_topic ){
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( 
         $statement, 
-        "sis", 
+        "sii", 
         $new_topic["new_topic_label"],
         $cat_id,
         $current_user
@@ -282,6 +279,24 @@ function createTopic( $new_topic ){
     return (boolean)($topic_inserted > 0);
 }
 
+function getTopicLabel($topic_id){
+
+    $connection = getConnection();
+    
+    $sql = "SELECT topics.topic_label
+    FROM topics WHERE topics.topic_id=?";
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $topic_id );
+    mysqli_stmt_execute( $statement );
+    mysqli_stmt_bind_result( $statement, $topic_label);
+    mysqli_stmt_fetch( $statement );
+
+     mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+
+    return $topic_label;
+
+}
 
 
 /***** POSTS ******/
@@ -329,15 +344,46 @@ function countPosts(){
     return $result["nb_posts"];
 }
 
-function countPostsByTopic(){
+function countPostsByTopic( $topic_id ){
 
     $connection = getConnection();
-    $sql = "SELECT COUNT * as nb_postsByTopic FROM posts WHERE post_topic=?";
-    $result = mysqli_query( $connection, "s", $sql );
-    $result = mysqli_fetch_assoc( $results );
+    $sql = "SELECT COUNT(*) as nb_postsByTopic FROM posts WHERE post_topic=?";
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $topic_id );
+    mysqli_stmt_execute( $statement );
+    mysqli_stmt_bind_result( $statement, $nb_posts );
+    mysqli_stmt_fetch( $statement );
+
+    $nb_result = $nb_posts;
+
+    return $nb_result;
+}
+
+function getPostById( $id ){
+
+    $connection = getConnection();
+    $sql = "SELECT * FROM post WHERE post_id=?";
+
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $id );
+    mysqli_stmt_execute( $statement );
+    mysqli_stmt_bind_result( $statement, $id, $label, $price, $image_url );
+    mysqli_stmt_fetch( $statement );
+
+    $post = [
+        "id" => $b_id,
+        "title" => $b_title,
+        "writer" => $b_writer,
+        "text" => $b_text,
+        "topic" => $b_topic,
+        "date" => $b_date
+    ];
+
+    mysqli_stmt_close( $statement );
     mysqli_close( $connection );
 
-    return $result["nb_postsByTopic"];
+    return $post;
+
 }
 
 function getPostByTopic($b_topic, $index_page = 0){
@@ -408,7 +454,7 @@ function getPostByTopic($b_topic, $index_page = 0){
 function deletePostById( $id ){
 
     $connection = getConnection();
-    $sql = "DELETE FROM posts WHERE id=?";
+    $sql = "DELETE FROM posts WHERE post_id=?";
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( $statement, "i", $id );
     mysqli_stmt_execute( $statement );

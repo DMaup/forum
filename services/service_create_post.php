@@ -11,15 +11,11 @@ if( isset( $_POST["post_title"] )
     $_SESSION["newpost"] = $_POST;
     
     
-    //Check title
-    if( strlen( $post_title ) < 4 || strlen( $post_title ) > 20 ){
-        $message = "Le titre doit contenir de 4 à 20 caractères !";
-        $_SESSION["newpost"]["new_post_title"] = "";
-    }
-
+    
+   
     //Check text
-    else if( strlen( $post_text ) < 20 || strlen( $post_text ) > 1000 ){
-        $message = "Le texte doit contenir de 4 à 1000 caractères !";
+    if( strlen( $post_text ) < 10 || strlen( $post_text ) > 1000 ){
+        $message = "Le texte doit contenir de 10 à 1000 caractères !";
         $_SESSION["newpost"]["new_post_text"] = "";        
     }
 

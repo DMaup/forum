@@ -23,7 +23,7 @@ if( isset($_POST['cat_id'])){
 
         <input type="hidden" name="cat_id" value="<?php echo $cat_id; ?>" >
    
-        <input type="submit" value="Publier">
+        <input type="submit" value="Saisir le premier post associé">
 
 </form>
 

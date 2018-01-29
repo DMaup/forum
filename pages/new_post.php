@@ -10,16 +10,24 @@ if( isset($_GET["message"]) ){
 
 if( isset($_POST['topic'])){
     $topic_id=($_POST['topic']);
+    
+    $topic_label=getTopicLabel($topic_id);
+    
+}
+if( isset($_GET['new_topic_label'])){
+    $topic_label=$_GET['new_topic_label'];
+    
 
 }
+
 
 ?>
 
 <form action="?service=create_post" method="POST">   
 
     <label>
-        <span> Titre </span><br>
-        <input type="text" name="post_title" value="<?php $post_title ?>" >
+        
+        <input type="text" name="post_title" value="<?php echo $topic_label ?>" >
     </label>
         <br>
     <label>

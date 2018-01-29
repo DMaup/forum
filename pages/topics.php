@@ -32,11 +32,18 @@ else $cat_id='cat_id';
     $topics = getTopicsByCat($cat_id);
     
     if( count($topics) ){
+    
+    
         $html_topic="";
+        
         foreach( $topics as $key => $topic ) {
-
+            $topic_id = $topic["topic_id"];
+            $nb_posts = countPostsByTopic ($topic_id);
+                if ($nb_posts >0){
+    
+            
             $html_topic .= '<form action="?page=posts" method="POST">';         
-                    
+                  
                 $html_topic .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';
                 $html_topic .= '<h4>Auteur:  ' . $topic["writer"] . '</h4>';  
                 $html_topic .= '<h4>Date de création:  ' . $topic["date"] . '</h4>';             
@@ -46,6 +53,8 @@ else $cat_id='cat_id';
                 $html_topic .= '</div>';   
         
             $html_topic .= '</form>';
+                }
+            
         }
         
         echo $html_topic;

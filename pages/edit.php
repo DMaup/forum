@@ -1,28 +1,23 @@
 <?php 
 
-if( isset( $_GET["id"] ) ){
+if( isset( $_GET["post_id"] ) ){
     
-    $id = $_GET["id"];
-    $product = getProductById( $id );
+    $id = $_GET["post_id"];
+    $product = getPostById( $id );
     ?> 
 
-    <h2> Edition du produit <?php echo $product["label"] ?> </h2>
+    <h2> Edition du post <?php echo $post["title"] ?> </h2>
     
-    <form action="?service=update_product&id=<?php echo $id ?>" method="POST" enctype="multipart/form-data" >
+    <form action="?service=edit_post&id=<?php echo $id ?>" method="POST" enctype="multipart/form-data" >
 
             <label>
-                <span> Label </span>
-                <input type="text" name="label" value="<?php echo $product["label"] ?>" >
+                <span> Titre </span><br>
+                <input type="text" name="post_title" value="<?php $post_title ?>" >
             </label>
 
             <label>
-                <span> Prix </span>
-                <input type="number" name="price" step="0.01" value="<?php echo $product["price"] ?>" >
-            </label>
-
-            <label>
-                <span> Image </span>
-                <input type="file" name="image" >
+                <span> Texte </span><br>
+                <textarea name="post_text" id="post_text" value="<?php $post_text ?>" ></textarea>
             </label>
 
             <input type="submit" value="Editer">
@@ -33,7 +28,7 @@ if( isset( $_GET["id"] ) ){
 
     }
     else {
-        header("Location: ?page=admin");
+        header("Location: ?page=home");
         die();
     }
 

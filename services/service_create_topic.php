@@ -15,21 +15,16 @@ if(
         $_SESSION["newtopic"]["new_topic_label"] = "";
     }
 
-    // else if( strlen( $new_topic_description ) < 4 || strlen( $new_topic_description ) > 60 ){
-    //     $message = "La descrition du sujet doit contenir de 4 à 60 caractères !";
-    //     $_SESSION["newtopic"]["new_topic_description"] = "";
-    // }
-
     // All ok
     else {
 
         $new_topic = [
-            "new_topic_label" => $new_topic_label,
+            "new_topic_label" => $new_topic_label
             // "new_topic_description" => $new_topic_description  
         ];
               
         if( createTopic( $new_topic ) ){
-            $message = "Le sujet a bien été créé !";
+            $message = "Veuillez saisir le premier post associé";
             unset( $_SESSION["newtopic"] );
         }
         else {
@@ -43,4 +38,5 @@ else {
     $message = "Il manque des données !";
 }
 
-header("Location: ?page=home&message=". $message);
+header("Location: ?page=new_post&new_topic_label=" .$new_topic_label."&message=". $message);
+?>
