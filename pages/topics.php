@@ -4,21 +4,21 @@ if( isset($_GET["message"]) ){
 
 }
 
+if( isset($_GET['topic_id'])){
+    $topic_id=($_GET['topic_id']);   
+}
 ?>
 
 <a href="?page=home"> Home </a> <br>
 Catégorie :
 <?php 
     if( isset($_POST['cat_title'])){
-        $cat_title=($_POST['cat_title']);
+        $cat_title=$_POST['cat_title'];
+        $cat_id=$_POST['cat_id'];
         echo $cat_title;
+        
     }
-    if( isset($_POST['cat_id'])){
-            $cat_id=($_POST['cat_id']);
-            
-    }
-    else $cat_id='cat_id';
-
+    
 ?>
 <br>
 
@@ -29,10 +29,12 @@ Catégorie :
         $index_page = $_GET["index_page"];
     }
 ?>
-<?php 
+<?php
+
     $topics = getTopicsByCat($cat_id);
     
     if( count($topics) ){
+        
         
         $html_topic="";
         
@@ -41,10 +43,10 @@ Catégorie :
             
             $nb_posts = countPostsByTopic ($topic_id);
             
-                if ($nb_posts >0){
+                if ($nb_posts >1){
     
             
-            $html_topic .= '<form action="?page=posts" method="POST">';         
+            $html_topic .= '<form action="?page=posts&cat_id=' . $cat_id . '" method="POST">';         
                   
                 $html_topic .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';
                 $html_topic .= '<h4>' . $topic["label"] . '</h4>';
@@ -62,13 +64,19 @@ Catégorie :
         
         echo $html_topic;
 
-        
+           
     }
+    
     else {
-        echo "<div> Aucun sujet ! </div>";
+        
+        $message = "Aucun sujet dans cette catégorie !";
+        
+
+        header("Location: ?page=new_topic&cat_id=".$cat_id."&topic_id=".$topic_id."&message=".$message);
+        die();
     }
         $html_new_topic="";    
-        $html_new_topic .= '<form action="?page=new_topic" method="POST">';
+        $html_new_topic .= '<form action="?page=new_topic&topic_id=' .$topic_id. '" method="POST">';
         $html_new_topic .= '<input type="hidden" name="cat_id" value=' . $cat_id . '>';
         $html_new_topic .= '<input type="submit" value="Créer un sujet">';
         $html_new_topic .= '</form>';

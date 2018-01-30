@@ -31,7 +31,7 @@
 
     $cats = getCategories($index_page);
 
-    if( count($cats) ){
+    if( count($cats)){
         $html_cat="";
         foreach( $cats as $key => $cat ) {
             $html_cat .= '<form action="?page=topics" method="POST">';         

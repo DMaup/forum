@@ -8,17 +8,19 @@ if( isset( $_GET["post_id"] ) ){
     
     ?> 
 
-    <h2> Edition du post <?php echo $post["text"] ?> </h2>
-    
+    <h2> Edition du post </h2><br>
+    <div class="post_text" id="post_text">
+    <span><?php echo $post["text"] ?></span><br> 
+    </div>
     <form action="?service=edit_post&post_id=<?php echo $id ?>" method="POST">
 
             
             <label>
-                <span> Texte à éditer </span><br>
-                <textarea name="text" id="text" value="<?php $text ?>" ></textarea>
+                <br><span> Nouveau texte </span><br>
+                <textarea class="post_text" name="text" id="post_text" value="<?php $text ?>" ></textarea>
             </label>
-
-            <input type="submit" value="Editer">
+            <br>
+            <input type="submit" value="Mettre à jour">
 
     </form>
 

@@ -8,7 +8,7 @@ define("DB_NAME", "forum");
 define("DB_USER", "root");
 define("DB_PASS", "root");
 
-define("POSTS_BY_PAGE", 3);
+define("POSTS_BY_PAGE", 4);
 
 // Grants
 define("CAN_CREATE_TOPIC", 1);
@@ -258,7 +258,7 @@ function createTopic( $new_topic ){
     $connection = getConnection();
     $current_user = $_SESSION["user"]["id"];
     $cat_id = $_SESSION["newtopic"]["cat_id"];
-    
+        
     $sql = "INSERT INTO topics VALUES (null, ?, null, ?, ?)";
 
     $statement = mysqli_prepare( $connection, $sql );
@@ -272,11 +272,12 @@ function createTopic( $new_topic ){
 
     mysqli_stmt_execute( $statement );
     $topic_inserted = mysqli_stmt_affected_rows( $statement );
+    $topic_id = mysqli_insert_id($connection);
 
     mysqli_stmt_close( $statement );
     mysqli_close( $connection );
     
-    return (boolean)($topic_inserted > 0);
+    return ($topic_id);
 }
 
 function getTopicLabel($topic_id){
@@ -423,7 +424,7 @@ function update_post( $text, $id){
     
     $sql = "UPDATE posts SET post_text=? WHERE post_id=?";
     $statement = mysqli_prepare( $connection, $sql );
-    mysqli_stmt_bind_param( $statement, "s", $id);
+    mysqli_stmt_bind_param( $statement, "si", $text, $id);
     mysqli_stmt_execute( $statement );
    
 
@@ -432,7 +433,7 @@ function update_post( $text, $id){
     
     mysqli_stmt_close( $statement );
     mysqli_close( $connection );
-    debug ($edited);
+    
     return $edited;
 
 

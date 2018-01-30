@@ -1,16 +1,22 @@
 <?php 
-if( isset($_GET["id"]) ){
-
+if( isset($_GET["id"])){
     $id = $_GET["id"];
-
+    
     if( deletePostById( $id ) ){
         $message = "Post supprimé !";
     }
+
     else {
         $message = "Erreur lors de la suppression";
     }
 
-    header("Location: ?page=home&message=".$message);
+    if( isset($_GET["topic_id"]) ){
+        $topic_id = $_GET["topic_id"];
+        
+    }
+    
+
+    header("Location: ?page=home&topic_id=$topic_id&message=".$message);
     die();
 
 }

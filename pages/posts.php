@@ -16,9 +16,21 @@ if( isset($_GET["message"]) ){
 <?php 
     
 if( isset($_POST['topic_id'])){
-    $topic_id=($_POST['topic_id']);
-    $topic_label=getTopicLabel($topic_id);
+    $topic_id=$_POST['topic_id'];
+
 }
+
+
+if( isset($_POST['cat_id'])){
+    $cat_id=$_POST['cat_id'];
+
+}
+if( isset($_GET['topic_id'])){
+    $topic_id=$_GET['topic_id'];
+
+}
+    $topic_label=getTopicLabel($topic_id);
+
 
 
 ?>
@@ -28,7 +40,7 @@ if( isset($_POST['topic_id'])){
 <?php
 
 
-    $posts = getPostByTopic($topic_id);
+    $posts = getPostByTopic($topic_id, $index_page);
 
     if( count($posts) ){
         
@@ -48,7 +60,7 @@ if( isset($_POST['topic_id'])){
                             if ($post["writer"]==$_SESSION["user"]["username"]
                             || $_SESSION["user"]["id_role"]==1
                             || $_SESSION["user"]["id_role"]==2){
-                            $html_post .= '<a href="?service=delete_post&id='.$post["id"].'" > Supprimer ce post </a>';
+                            $html_post .= '<a href="?service=delete_post&topic_id='.$post["topic"].'&id='.$post["id"].'" > Supprimer ce post </a>';
                             }
                         }
                         else{    
@@ -77,6 +89,8 @@ if( isset($_POST['topic_id'])){
         $html_post .= '<ul>';       
         $nb_posts = countPostsByTopic( $topic_id );    
         $nb_pages = ceil( $nb_posts / POSTS_BY_PAGE );
+       
+        
               
         
         for( $i=0; $i < $nb_pages; $i++ ){ 

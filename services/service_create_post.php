@@ -2,12 +2,14 @@
        
 if( isset( $_POST["post_title"] )
     && isset( $_POST["post_text"] )
-    && isset( $_POST["post_topic"] )){
+    && isset( $_POST["post_topic"] )
+    && isset( $_GET["topic_id"] )){
 
     $post_title = $_POST["post_title"];
     $post_text = $_POST["post_text"];
     $post_topic = $_POST["post_topic"];
-        
+    $topic_id = $_GET["topic_id"];
+    
     $_SESSION["newpost"] = $_POST;
     
     
@@ -25,7 +27,7 @@ if( isset( $_POST["post_title"] )
         $new_post = [
             "post_title" => $post_title,
             "post_text" => $post_text,
-            "post_topic" => $post_topic
+            "post_topic" => $topic_id
         ];
        
         if( createPost( $new_post ) ){
@@ -43,4 +45,4 @@ else {
     $message = "Il manque des données !";
 }
 
-header("Location: ?page=home&message=". $message);
+header("Location: ?page=posts&topic_id=".$topic_id."&message=". $message);

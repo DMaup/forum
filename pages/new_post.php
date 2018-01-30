@@ -10,6 +10,7 @@ if( isset($_GET["message"]) ){
 
 if( isset($_POST['topic'])){
     $topic_id=($_POST['topic']);
+  
     
     $topic_label=getTopicLabel($topic_id);
     
@@ -17,13 +18,18 @@ if( isset($_POST['topic'])){
 if( isset($_GET['new_topic_label'])){
     $topic_label=$_GET['new_topic_label'];
     
+}
 
+if( isset($_GET['topic_id'])){
+    $topic_id=$_GET['topic_id'];
+    
+    
 }
 
 
 ?>
 
-<form action="?service=create_post" method="POST">   
+<form action="?service=create_post&topic_id=<?php echo $topic_id ?>" method="POST">   
 
     <label>
         
@@ -32,7 +38,7 @@ if( isset($_GET['new_topic_label'])){
         <br>
     <label>
         <span> Texte </span><br>
-        <textarea name="post_text" id="post_text" value="<?php $post_text ?>" ></textarea>
+        <textarea class="post_text" name="post_text" id="post_text" value="<?php $post_text ?>" ></textarea>
     </label>
     <br>
         <input type="hidden" name="post_topic" value="<?php echo $topic_id ?>" >
