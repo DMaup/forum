@@ -43,7 +43,7 @@ Catégorie :
             
             $nb_posts = countPostsByTopic ($topic_id);
             
-                if ($nb_posts >1){
+                if ($nb_posts >0){
     
             
             $html_topic .= '<form action="?page=posts&cat_id=' . $cat_id . '" method="POST">';         
