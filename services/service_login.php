@@ -1,6 +1,7 @@
 <a href="?page=home"> Home </a> <br>
 <?php
 $connected = false;
+
 if( isset( $_POST["username"] ) && isset( $_POST["password"] ) ){
 
     $username = $_POST["username"];
@@ -11,14 +12,13 @@ if( isset( $_POST["username"] ) && isset( $_POST["password"] ) ){
 
         $_SESSION["user"] = $user;
         $connected = true;
-
     }
-
 }
 
 if( $connected ){
     header("Location: ?page=home");
 }
+
 else {
     
     SESSION_destroy(); 

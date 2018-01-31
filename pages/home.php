@@ -23,7 +23,6 @@
         echo "<div class='message'>" . $_GET["message"] . "</div>";
     }
  
-
     $index_page = 0;
     if( isset( $_GET["index_page"] ) ){
         $index_page = $_GET["index_page"];
@@ -34,13 +33,12 @@
     if( count($cats)){
         $html_cat="";
         foreach( $cats as $key => $cat ) {
-            $html_cat .= '<form action="?page=topics" method="POST">';         
+            $html_cat .= '<form action="?page=topics&cat_id='.$cat['cat_id'].'" method="POST">';         
                       
                 $html_cat .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';               
                     $html_cat .= '<h4>' . $cat["cat_title"] . '</h4>';
                     $html_cat .= '<p>' . $cat["cat_description"] . '</p>';
-                    $html_cat .= '<input type="hidden" name="cat_id" value=' .$cat["cat_id"] . '>';
-                    $html_cat .= '<input type="hidden" name="cat_title" value=' .$cat["cat_title"] . '>';
+                    $html_cat .= '<input type="hidden" name="cat_title" value="' .$cat["cat_title"] . '">';
                     $html_cat .= '<input type="submit" value="Lire plus">';
                 $html_cat .= '</div>';   
            
@@ -49,6 +47,7 @@
         
         echo $html_cat;
     }
+    
     else {
         echo "<div> Aucune catégorie trouvée ! </div>";
     }

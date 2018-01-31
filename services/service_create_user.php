@@ -10,12 +10,10 @@ if(
     
     $_SESSION["fields"] = $_POST;
     
-    //debug($_POST);
     //Check new_firstname
     if( strlen( $new_firstname ) < 3 || strlen( $new_firstname ) > 10 ){
         $message = "Le prénom doit contenir 3 à 10 caractères !";
-        $_SESSION["fields"]["new_firstname"] = "";
-                
+        $_SESSION["fields"]["new_firstname"] = "";                
     }
     
     //Check password
@@ -36,10 +34,8 @@ if(
         $new_password = sha1( $_POST["new_password"] . SALT );
         $new_user = [
             "new_firstname" => $new_firstname,
-            "new_password" => $new_password
-            
+            "new_password" => $new_password  
         ];
-        //debug($new_user);
 
         if( createUSer( $new_user ) ){
             $message = "Votre compte a bien été créé !";

@@ -178,27 +178,6 @@ function getCategories (){
 
 /***** TOPICS ******/
 
-// function getTopics (){
-
-//     $connection = getConnection();
-
-//     $sql = "SELECT topic_id, topic_label, topic_date FROM topics";
-    
-//     $topics = mysqli_query($connection, $sql);
-
-//     mysqli_close( $connection );
-    
-//     $topic = [];
-    
-//     while( $row = mysqli_fetch_assoc($topics) ){
-
-//         $topic[] = $row;
-
-//     }
-    
-//     return $topic;
-// }
-
 function getTopicsByCat($b_cat){
 
     $connection = getConnection();
@@ -224,23 +203,13 @@ function getTopicsByCat($b_cat){
         "cat" => $b_cat,
         "writer" => $b_writer         
     ];
+    
     }
     
     mysqli_stmt_close( $statement );
     mysqli_close( $connection );
 
     return $topics;
-}
-
-function countTopics(){
-
-    $connection = getConnection();
-    $sql = "SELECT COUNT(*) as nb_topics FROM topics";
-    $results = mysqli_query( $connection, $sql );
-    $result = mysqli_fetch_assoc( $results );
-    mysqli_close( $connection );
-
-    return $result["nb_topics"];
 }
 
 function countTopicsByCat($b_cat){
@@ -264,7 +233,7 @@ function createTopic( $new_topic ){
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( 
         $statement, 
-        "sii", 
+        "ssi", 
         $new_topic["new_topic_label"],
         $cat_id,
         $current_user
@@ -296,54 +265,9 @@ function getTopicLabel($topic_id){
     mysqli_close( $connection );
 
     return $topic_label;
-
 }
-
 
 /***** POSTS ******/
-
-// function getPosts( $index_page = 0 ){
-
-//     $connection = getConnection();
-//     $sql = "SELECT post_id, post_title, post_writer, post_text, post_date FROM posts LIMIT ?, ?";
-
-//     $start_index = $index_page * POSTS_BY_PAGE;
-//     $end_index = POSTS_BY_PAGE;
-
-//     $statement = mysqli_prepare( $connection, $sql );
-//     mysqli_stmt_bind_param( $statement, "ii", $start_index, $end_index);
-//     mysqli_stmt_execute( $statement );
-//     mysqli_stmt_bind_result( $statement, $b_id, $b_title, $b_writer, $b_text, $b_date );
-
-//     $posts = [];
-//     while( mysqli_stmt_fetch( $statement ) ) {
-        
-//         $posts[] = [
-//             "id" => $b_id,
-//             "title" => utf8_encode( $b_title ),
-//             "writer" => utf8_encode($b_writer),
-//             "text" => utf8_encode( $b_text ),
-//             "date" => $b_date
-//         ];
-
-//     }
-    
-//     mysqli_stmt_close( $statement );
-//     mysqli_close( $connection );
-
-//     return $posts;
-// }
-
-function countPosts(){
-
-    $connection = getConnection();
-    $sql = "SELECT COUNT(*) as nb_posts FROM posts";
-    $results = mysqli_query( $connection, $sql );
-    $result = mysqli_fetch_assoc( $results );
-    mysqli_close( $connection );
-
-    return $result["nb_posts"];
-}
 
 function countPostsByTopic( $topic_id ){
 
@@ -380,8 +304,6 @@ function getPostById( $id ){
     mysqli_close( $connection );
 
     return $post;
-    
-
 }
 
 function getPostByTopic($b_topic, $index_page = 0){
@@ -435,8 +357,6 @@ function update_post( $text, $id){
     mysqli_close( $connection );
     
     return $edited;
-
-
 }
 
 function deletePostById( $id ){
@@ -455,38 +375,30 @@ function deletePostById( $id ){
     return (boolean)($deleted > 0);
 }
 
-    // $post = [
-    //     "title",
-    //     "writer",
-    //     "text",
-        
-    // ];
-
-    function createPost( $new_post ){
-        $connection = getConnection();
-        $current_user = $_SESSION["user"]["username"];
-        
-        $sql = "INSERT INTO posts VALUES (null, ?, ?, null, ?, ?)";
-
-        $statement = mysqli_prepare( $connection, $sql );
-        mysqli_stmt_bind_param( 
-            $statement, 
-            "isss",
-            $new_post["post_topic"],
-            $new_post["post_title"],
-            $current_user,
-            $new_post["post_text"]
-        );
-
-        mysqli_stmt_execute( $statement );
-        $post_inserted = mysqli_stmt_affected_rows( $statement );
-
-        mysqli_stmt_close( $statement );
-        mysqli_close( $connection );
-        
-        return (boolean)($post_inserted > 0);
-    }
+function createPost( $new_post ){
+    $connection = getConnection();
+    $current_user = $_SESSION["user"]["username"];
     
+    $sql = "INSERT INTO posts VALUES (null, ?, ?, null, ?, ?)";
+
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( 
+        $statement, 
+        "isss",
+        $new_post["post_topic"],
+        $new_post["post_title"],
+        $current_user,
+        $new_post["post_text"]
+    );
+
+    mysqli_stmt_execute( $statement );
+    $post_inserted = mysqli_stmt_affected_rows( $statement );
+
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+    
+    return (boolean)($post_inserted > 0);
+}
 
 function debug( $arg, $printr = false ){
     
@@ -495,11 +407,11 @@ function debug( $arg, $printr = false ){
         print_r($arg);
         echo "</pre>";
     }
+
     else {
         var_dump( $arg );
     }
     
     die();
-
 }
 

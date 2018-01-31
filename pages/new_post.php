@@ -10,26 +10,24 @@ if( isset($_GET["message"]) ){
 
 if( isset($_POST['topic'])){
     $topic_id=($_POST['topic']);
-  
-    
-    $topic_label=getTopicLabel($topic_id);
-    
+    $topic_label=getTopicLabel($topic_id);  
 }
+
 if( isset($_GET['new_topic_label'])){
-    $topic_label=$_GET['new_topic_label'];
-    
+    $topic_label=$_GET['new_topic_label'];  
 }
 
 if( isset($_GET['topic_id'])){
-    $topic_id=$_GET['topic_id'];
-    
-    
+    $topic_id=$_GET['topic_id'];   
 }
 
+if( isset($_GET['cat_id'])){
+    $cat_id=$_GET['cat_id'];   
+}
 
 ?>
 
-<form action="?service=create_post&topic_id=<?php echo $topic_id ?>" method="POST">   
+<form action="?service=create_post&cat_id=<?php echo $cat_id ?>&topic_id=<?php echo $topic_id ?>" method="POST">   
 
     <label>
         

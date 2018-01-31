@@ -1,6 +1,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="assets/css/boostrap.css">
         <link rel="stylesheet" href="assets/css/styles.css">
     </head>
     <body>
@@ -58,7 +59,7 @@
                     </li>                  -->
                         <?php if( isLogged( ADMIN ) ) { ?>
                     <li> 
-                        <a href="?page=admin"> Gestion des Utilisateurs </a>
+                        <a href="?page=admin"> Gestion du Forum </a>
                     </li>
 
                         <?php } ?>

@@ -7,13 +7,7 @@ if( isset( $_POST["new_topic_label"] )
     $new_topic_cat = $_POST["cat_id"];
     
     $_SESSION["newtopic"] = $_POST;  
-    
-     
-        if (isset ($_POST["topic_id"])){
-            $topic_id = $_POST["topic_id"];
-        
-        }
-    
+          
         //Check label
         if( strlen( $new_topic_label ) < 4 || strlen( $new_topic_label ) > 60 ){
             $message = "Le titre du sujet doit contenir de 4 à 60 caractères !";
@@ -25,11 +19,9 @@ if( isset( $_POST["new_topic_label"] )
 
             $new_topic = [
                 "new_topic_label" => $new_topic_label,
-                "cat_id" => intval($new_topic_cat)
-                
+                "cat_id" => $new_topic_cat    
             ];
-           
-                
+                           
             if( $topic_id = createTopic( $new_topic ) ){
                 $message = "Veuillez saisir le premier post associé";
                 unset( $_SESSION["newtopic"] );
@@ -45,5 +37,5 @@ else {
     $message = "Il manque des données !";
 }
 
-header("Location: ?page=new_post&new_topic_label=" .$new_topic_label."&topic_id=" .$topic_id. "&message=". $message);
+header("Location: ?page=new_post&new_topic_label=" . $new_topic_label . "&cat_id=" . $new_topic_cat . "&topic_id=" . $topic_id . "&message=" . $message);
 ?>

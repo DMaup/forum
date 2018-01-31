@@ -1,12 +1,16 @@
 <?php
 if( isset($_GET["message"]) ){
     echo "<div class='message'>" . $_GET["message"] . "</div>";
-
 }
 
 if( isset($_GET['topic_id'])){
     $topic_id=($_GET['topic_id']);   
 }
+
+if( isset($_GET['cat_id'])){
+    $cat_id=$_GET['cat_id'];
+}
+
 ?>
 
 <a href="?page=home"> Home </a> <br>
@@ -14,9 +18,7 @@ Catégorie :
 <?php 
     if( isset($_POST['cat_title'])){
         $cat_title=$_POST['cat_title'];
-        $cat_id=$_POST['cat_id'];
-        echo $cat_title;
-        
+        echo $cat_title;    
     }
     
 ?>
@@ -46,7 +48,7 @@ Catégorie :
                 if ($nb_posts >0){
     
             
-            $html_topic .= '<form action="?page=posts&cat_id=' . $cat_id . '" method="POST">';         
+            $html_topic .= '<form action="?page=posts&cat_id=' . $cat_id . '&topic_id=' . $topic_id . '" method="POST">';         
                   
                 $html_topic .= '<div type="hidden" style="border: 1px solid black; margin: 5px;">';
                 $html_topic .= '<h4>' . $topic["label"] . '</h4>';
@@ -54,6 +56,7 @@ Catégorie :
                 $html_topic .= '<h4>Auteur:  ' . $topic["writer"] . '</h4>';  
                 $html_topic .= '<h4>Date de création:  ' . $topic["date"] . '</h4>';             
                 $html_topic .= '<input type="hidden" name="topic_id" value=' . $topic["topic_id"] . '>';
+                $html_topic .= '<input type="hidden" name="topic_label" value="' . $topic["label"] . '">';
                 $html_topic .= '<input type="submit" value="Lire les posts">';
                 $html_topic .= '</div>';   
         
@@ -62,22 +65,19 @@ Catégorie :
             
         }
         
-        echo $html_topic;
-
-           
+        echo $html_topic;       
     }
     
     else {
         
         $message = "Aucun sujet dans cette catégorie !";
-        
-
-        header("Location: ?page=new_topic&cat_id=".$cat_id."&topic_id=".$topic_id."&message=".$message);
+    
+        header("Location: ?page=new_topic&cat_id=" . $cat_id . "&topic_id=" . $topic_id . "&message=" . $message);
         die();
     }
         $html_new_topic="";    
-        $html_new_topic .= '<form action="?page=new_topic&topic_id=' .$topic_id. '" method="POST">';
-        $html_new_topic .= '<input type="hidden" name="cat_id" value=' . $cat_id . '>';
+        $html_new_topic .= '<form action="?page=new_topic&cat_id=' . $cat_id . '&topic_id=' . $topic_id . '" method="POST">';
+        // $html_new_topic .= '<input type="hidden" name="cat_id" value=' . $cat_id . '>';
         $html_new_topic .= '<input type="submit" value="Créer un sujet">';
         $html_new_topic .= '</form>';
 
