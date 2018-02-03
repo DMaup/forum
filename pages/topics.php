@@ -67,7 +67,7 @@ if( isset($_GET['cat_id'])){
                 // if( isset( $_SESSION["user"] ) ){                                                        
                     if ($_SESSION["user"]["id_role"]==1
                     && $topic_closed==0){
-                    $html_topic .= '<br><a href="?service=delete_topic&cat_id=' . $cat_id . '&topic_id=' . $topic_id . '" > Supprimer ce sujet </a>';
+                    $html_topic .= '<br><a href="?page=confirm_delete_topic&cat_id=' . $cat_id . '&topic_close=' . $topic_closed . '&topic_id=' . $topic_id . '" > Supprimer ce sujet </a>';
                     $html_topic .= '<a> Attention :  Tous les posts associés seront supprimés !</a>';
                     }
                     

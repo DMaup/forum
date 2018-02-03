@@ -98,6 +98,10 @@
             connectionRequired( USER, MODERATOR, ADMIN );
             $page_file = "pages/edit_post.php";
             break;
+        case "confirm_delete_topic":
+            connectionRequired( ADMIN );
+            $page_file = "pages/confirm_delete_topic.php";
+            break;
         case "admin":
             connectionRequired( ADMIN );
             $page_file = "pages/admin.php";
