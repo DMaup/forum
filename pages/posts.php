@@ -81,7 +81,7 @@ if( isset($_GET['topic_closed'])){
                                                               
                 $html_post .= '</div>';  
             }
-            if ($topic_closed==0){
+            if ($topic_closed==1){
             $html_post .= '<input type="hidden" name="topic" value=' . $post["topic"] . '>';
             $html_post .= '<input type="submit" value="Créer un nouveau post">';
             }

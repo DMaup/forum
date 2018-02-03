@@ -51,15 +51,20 @@ if( isset($_GET['cat_id'])){
                 $html_topic .= '<h4>Auteur:  ' . $topic["writer"] . '</h4>';  
                 $html_topic .= '<h4>Date de création:  ' . $topic["date"] . '</h4>';             
                 $html_topic .= '<input type="hidden" name="topic_id" value=' . $topic["topic_id"] . '>';
-                $html_topic .= '<input type="hidden" name="topic_closed" value=' . $topic["topic_closed"] . '>';
-                $topic_closed=$topic["topic_closed"];
-                if ($topic_closed==1){
-                $html_topic .= '<a>Sujet fermé !</a>';    
-                $html_topic .= '<br><a href="?service=open_topic&cat_id=' . $cat_id . '&topic_id=' . $topic_id . '" > Ré-ouvrir ce sujet </a>';
-                    }
+                $html_topic .= '<input( type="text" name="topic_closed" value=' . $topic["topic_closed"] . '>';
+                if ($topic["topic_closed"]==1){
+                $html_topic .= '<a>Sujet fermé !</a>'; 
+                } 
                 $html_topic .= '<input type="hidden" name="topic_label" value="' . $topic["label"] . '">';
                 $html_topic .= '<input type="submit" value="Lire les posts">';
+                $topic_closed=$topic["topic_closed"];
                 if( isset( $_SESSION["user"] ) ){                                                        
+                    if ($_SESSION["user"]["id_role"]==1
+                    && $topic_closed==1){  
+                $html_topic .= '<br><a href="?service=open_topic&cat_id=' . $cat_id . '&topic_id=' . $topic_id . '" > Ré-ouvrir ce sujet </a>';
+                    }
+                
+                // if( isset( $_SESSION["user"] ) ){                                                        
                     if ($_SESSION["user"]["id_role"]==1
                     && $topic_closed==0){
                     $html_topic .= '<br><a href="?service=delete_topic&cat_id=' . $cat_id . '&topic_id=' . $topic_id . '" > Supprimer ce sujet </a>';
