@@ -26,6 +26,14 @@
                 connectionRequired( ADMIN );
                 include "services/service_delete_topic.php";
                 break;
+            case "close_topic":
+                connectionRequired( ADMIN );
+                include "services/service_close_topic.php";
+                break;
+            case "open_topic":
+                connectionRequired( ADMIN );
+                include "services/service_open_topic.php";
+                break;
             case "create_post":
                 connectionRequired( USER, MODERATOR, ADMIN );
                 include "services/service_create_post.php";
@@ -94,8 +102,13 @@
             connectionRequired( ADMIN );
             $page_file = "pages/admin.php";
             break;
+        case "en_cours":
+            connectionRequired( ADMIN );
+            $page_file = "pages/en_cours.php";
+            break;
         default:
             $page_file = "pages/404.php";
+            
     }
 
     include "commons/header.php";

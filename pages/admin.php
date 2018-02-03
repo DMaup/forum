@@ -1,4 +1,4 @@
-<a href="?page=home"> Home </a> <br>
+<a href="?page=en_cours"> en_cours </a> <br>
 <?php 
     $id_role = $_SESSION["user"]["id_role"];
 
@@ -13,23 +13,23 @@
     <!-- 
        ****** GESTION CREATION DES CATEGORIES ******
     -->
-    <a href="?page=home"> Créer une catégorie </a> <br><br>
+    <a href="?page=en_cours"> Créer une catégorie </a> <br><br>
     
-    <a href="?page=home"> Clôturer une catégorie </a> <br><br>
+    <a href="?page=en_cours"> Clôturer une catégorie </a> <br><br>
     
-    <a href="?page=home"> Ré-ouvrir une catégorie </a> <br><br>
+    <a href="?page=en_cours"> Ré-ouvrir une catégorie </a> <br><br>
     
-    <a href="?page=home"> Supprimer une catégorie </a> <br><br>
+    <a href="?page=en_cours"> Supprimer une catégorie </a> <br><br>
     
-    <a href="?page=home"> Clôturer un sujet </a> <br><br>
+    <a href="?page=en_cours"> Clôturer un sujet </a> <br><br>
     
-    <a href="?page=home"> Ré-ouvrir un sujet </a> <br><br>
+    <a href="?page=en_cours"> Ré-ouvrir un sujet </a> <br><br>
     
-    <a href="?page=home"> Supprimer un sujet </a> <br><br>
+    <a href="?page=en_cours"> Supprimer un sujet </a> <br><br>
     
-    <a href="?page=home"> Bloquer un Utilisateur </a> <br><br>
+    <a href="?page=en_cours"> Bloquer un Utilisateur </a> <br><br>
     
-    <a href="?page=home"> Supprimer un Utilisateur </a>
+    <a href="?page=en_cours"> Supprimer un Utilisateur </a>
     
     
 

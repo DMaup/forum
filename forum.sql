@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 30 Janvier 2018 à 15:07
+-- Généré le :  Sam 03 Février 2018 à 13:30
 -- Version du serveur :  5.7.11
--- Version de PHP :  5.6.18
+-- Version de PHP :  7.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -115,18 +115,27 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`post_id`, `post_topic`, `post_title`, `post_date`, `post_writer`, `post_text`) VALUES
-(61, 78, 'sujet 1 cat 1', '2018-01-30 15:02:39', 'David', 'sujet 1 cat 1 post 1'),
-(62, 78, 'sujet 1 cat 1', '2018-01-30 15:02:52', 'David', 'sujet 1 cat 1 post 2'),
-(63, 79, 'sujet 2 cat 1', '2018-01-30 15:03:14', 'David', 'sujet 2 cat 1 post 1'),
-(64, 80, 'sujet 1 cat 2', '2018-01-30 15:03:31', 'David', 'sujet 1 cat 2 post 1'),
 (65, 81, 'sujet 1 cat 3', '2018-01-30 15:03:51', 'David', 'sujet 1 cat 3 post 1'),
 (66, 81, 'sujet 1 cat 3', '2018-01-30 15:04:00', 'David', 'sujet 1 cat 3 post 2'),
 (67, 81, 'sujet 1 cat 3', '2018-01-30 15:04:09', 'David', 'sujet 1 cat 3 post 3'),
-(68, 78, 'sujet 1 cat 1', '2018-01-30 15:04:29', 'David', 'sujet 1 cat 1 post 3'),
-(69, 78, 'sujet 1 cat 1', '2018-01-30 15:04:54', 'tata', 'sujet 1 cat 1 post 4'),
 (70, 78, 'sujet 1 cat 1', '2018-01-30 15:05:03', 'tata', 'sujet 1 cat 1 post 5'),
-(71, 82, 'sujet 1 cat 2', '2018-01-30 15:05:38', 'tata', 'sujet 1 cat 2 post 1'),
-(72, 82, 'sujet 1 cat 2', '2018-01-30 15:05:48', 'tata', 'sujet 1 cat 2 post 2');
+(72, 82, 'sujet 1 cat 2', '2018-01-30 15:05:48', 'tata', 'sujet 1 cat 2 post 2'),
+(73, 83, 'sujet 2 cat 3', '2018-01-31 08:18:14', 'David', 'sujet 2 cat 3 post 1'),
+(74, 82, 'sujet 1 cat 2', '2018-01-31 13:56:36', 'David', 'sujet 1 cat 2 post 3sujet 1 cat 2 post 3'),
+(78, 85, 'Sujet 2 cat 2', '2018-01-31 20:00:45', 'David', 'Sujet 2 cat 2 post 1'),
+(79, 86, 'Sujet 3 cat 3', '2018-01-31 20:04:08', 'David', 'Sujet 3 cat 3 post 1'),
+(80, 93, 'Sujet 4 cat 3', '2018-01-31 20:36:52', 'David', 'Sujet 4 cat 3 post 1'),
+(81, 94, 'Sujet 3 cat 2', '2018-01-31 20:40:58', 'David', 'Sujet 3 cat 2 post1'),
+(82, 95, 'Sujet 5 cat 1', '2018-01-31 20:45:51', 'David', 'Sujet 5 cat 1 post 1'),
+(84, 96, 'Sujet 4 cat 2', '2018-01-31 20:51:32', 'David', 'Sujet 4 cat 2 post 1'),
+(85, 78, 'sujet 1 cat 1', '2018-01-31 20:55:36', 'David', 'sujet 1 cat 1 post1'),
+(86, 78, 'sujet 1 cat 1', '2018-01-31 22:20:14', 'David', 'sujet 1 cat 1 post 6'),
+(87, 94, 'Sujet 3 cat 2', '2018-01-31 22:21:47', 'David', 'Sujet 3 cat 2 post 2'),
+(88, 97, 'Sujet 6 cat 1', '2018-01-31 22:27:53', 'David', 'Sujet 6 cat 1 post 1'),
+(90, 98, 'Sujet 7 cat 1', '2018-02-03 09:32:49', 'David', 'Sujet 7 cat 1 post 1'),
+(91, 98, 'Sujet 7 cat 1', '2018-02-03 09:33:43', 'David', 'Sujet 7 cat 1 post 2'),
+(92, 85, 'Sujet 2 cat 2', '2018-02-03 13:06:21', 'David', 'Sujet 2 cat 2 post 2'),
+(93, 99, 'Sujet 4 cat 2', '2018-02-03 13:07:05', 'David', 'Sujet 4 cat 2 post 1');
 
 -- --------------------------------------------------------
 
@@ -159,19 +168,34 @@ CREATE TABLE `topics` (
   `topic_label` varchar(255) CHARACTER SET utf8 NOT NULL,
   `topic_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `topic_cat` varchar(11) CHARACTER SET utf8 NOT NULL,
-  `topic_writer` varchar(255) CHARACTER SET utf8 NOT NULL
+  `topic_writer` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `topic_closed` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `topics`
 --
 
-INSERT INTO `topics` (`topic_id`, `topic_label`, `topic_date`, `topic_cat`, `topic_writer`) VALUES
-(78, 'sujet 1 cat 1', '2018-01-30 15:02:31', '1', '4'),
-(79, 'sujet 2 cat 1', '2018-01-30 15:03:06', '1', '4'),
-(80, 'sujet 1 cat 2', '2018-01-30 15:03:24', '2', '4'),
-(81, 'sujet 1 cat 3', '2018-01-30 15:03:42', '3', '4'),
-(82, 'sujet 1 cat 2', '2018-01-30 15:05:28', '2', '14');
+INSERT INTO `topics` (`topic_id`, `topic_label`, `topic_date`, `topic_cat`, `topic_writer`, `topic_closed`) VALUES
+(78, 'sujet 1 cat 1', '2018-01-30 15:02:31', '1', '4', 1),
+(81, 'sujet 1 cat 3', '2018-01-30 15:03:42', '3', '4', 0),
+(82, 'sujet 1 cat 2', '2018-01-30 15:05:28', '2', '14', 0),
+(83, 'sujet 2 cat 3', '2018-01-31 08:18:05', '3', '4', 0),
+(85, 'Sujet 2 cat 2', '2018-01-31 20:00:36', '2', '4', 1),
+(86, 'Sujet 3 cat 3', '2018-01-31 20:03:41', '3', '4', 0),
+(87, 'Sujet 3 cat 2', '2018-01-31 20:15:24', '2', '4', 0),
+(88, 'Sujet 3 cat 2', '2018-01-31 20:19:10', '2', '4', 0),
+(89, 'Sujet 3 cat 2', '2018-01-31 20:23:07', '2', '4', 0),
+(90, 'Sujet 3 cat 2', '2018-01-31 20:24:28', '2', '4', 0),
+(91, 'Sujet 3 cat 2', '2018-01-31 20:26:19', '2', '4', 0),
+(92, 'Sujet 3 cat 2', '2018-01-31 20:33:33', '2', '4', 0),
+(93, 'Sujet 4 cat 3', '2018-01-31 20:36:44', '3', '4', 0),
+(94, 'Sujet 3 cat 2', '2018-01-31 20:40:50', '2', '4', 0),
+(95, 'Sujet 5 cat 1', '2018-01-31 20:45:41', '1', '4', 0),
+(96, 'Sujet 4 cat 2', '2018-01-31 20:51:25', '2', '4', 1),
+(97, 'Sujet 6 cat 1', '2018-01-31 22:27:45', '1', '4', 0),
+(98, 'Sujet 7 cat 1', '2018-02-03 09:32:38', '1', '4', 0),
+(99, 'Sujet 4 cat 2', '2018-02-03 13:06:55', '2', '4', 0);
 
 -- --------------------------------------------------------
 
@@ -273,7 +297,7 @@ ALTER TABLE `grants`
 -- AUTO_INCREMENT pour la table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 --
 -- AUTO_INCREMENT pour la table `roles`
 --
@@ -283,7 +307,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `topic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `topic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 --
 -- AUTO_INCREMENT pour la table `users`
 --

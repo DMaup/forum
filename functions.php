@@ -182,7 +182,7 @@ function getTopicsByCat($b_cat){
 
     $connection = getConnection();
     
-    $sql = "SELECT topics.topic_id, topics.topic_label, topics.topic_date, categories.cat_title, users.username
+    $sql = "SELECT topics.topic_id, topics.topic_label, topics.topic_date, categories.cat_title, users.username, topics.topic_closed
     FROM topics
     INNER JOIN users ON users.user_id = topics.topic_writer
     INNER JOIN categories ON categories.cat_id = topics.topic_cat
@@ -192,7 +192,7 @@ function getTopicsByCat($b_cat){
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( $statement, "i", $b_cat );
     mysqli_stmt_execute( $statement );
-    mysqli_stmt_bind_result( $statement, $b_id, $b_label, $b_date, $b_cat, $b_writer);
+    mysqli_stmt_bind_result( $statement, $b_id, $b_label, $b_date, $b_cat, $b_writer, $b_topic_closed);
     $topics = [];
     while( mysqli_stmt_fetch( $statement ) ) {
 
@@ -201,7 +201,8 @@ function getTopicsByCat($b_cat){
         "label" => $b_label,
         "date" => $b_date,
         "cat" => $b_cat,
-        "writer" => $b_writer         
+        "writer" => $b_writer,
+        "topic_closed" => $b_topic_closed         
     ];
     
     }
@@ -228,7 +229,7 @@ function createTopic( $new_topic ){
     $current_user = $_SESSION["user"]["id"];
     $cat_id = $_SESSION["newtopic"]["cat_id"];
         
-    $sql = "INSERT INTO topics VALUES (null, ?, null, ?, ?)";
+    $sql = "INSERT INTO topics VALUES (null, ?, null, ?, ?,0)";
 
     $statement = mysqli_prepare( $connection, $sql );
     mysqli_stmt_bind_param( 
@@ -261,10 +262,70 @@ function getTopicLabel($topic_id){
     mysqli_stmt_bind_result( $statement, $topic_label);
     mysqli_stmt_fetch( $statement );
 
-     mysqli_stmt_close( $statement );
+    mysqli_stmt_close( $statement );
     mysqli_close( $connection );
 
     return $topic_label;
+}
+
+function deleteTopicById( $id ){
+
+    $connection = getConnection();
+    $sql = "DELETE FROM topics WHERE topic_id=?";
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $id );
+    mysqli_stmt_execute( $statement );
+    
+    $deleted = mysqli_stmt_affected_rows( $statement );
+
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+
+    return (boolean)($deleted > 0);
+}
+
+function closeTopicById( $id ){
+
+    $connection = getConnection();
+    $statement;
+    
+    $sql = "UPDATE topics SET topic_closed='1' WHERE topic_id=?";
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $id);
+    mysqli_stmt_execute( $statement );
+    mysqli_stmt_fetch( $statement );
+    
+
+    // -1 erreur | 0 aucun changement | > 0 état changé
+    $topic_closed = mysqli_stmt_affected_rows( $statement );
+    
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+    
+    return $topic_closed;
+   
+}
+
+function openTopicById( $id ){
+
+    $connection = getConnection();
+    $statement;
+    
+    $sql = "UPDATE topics SET topic_closed='0' WHERE topic_id=?";
+    $statement = mysqli_prepare( $connection, $sql );
+    mysqli_stmt_bind_param( $statement, "i", $id);
+    mysqli_stmt_execute( $statement );
+    mysqli_stmt_fetch( $statement );
+    
+
+    // -1 erreur | 0 aucun changement | > 0 état changé
+    $topic_closed = mysqli_stmt_affected_rows( $statement );
+    
+    mysqli_stmt_close( $statement );
+    mysqli_close( $connection );
+    
+    return $topic_closed;
+   
 }
 
 /***** POSTS ******/

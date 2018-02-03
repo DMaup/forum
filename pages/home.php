@@ -1,4 +1,11 @@
-
+<!DOCTYPE html >
+	<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="menu.css">
+	<meta charset="utf-8" />
+	<meta name="description" content="description de la page" />
+	</head>
+		<body>
 <h1>    
     Bienvenue sur le FORUM "TP PHP" <br>
 </h1>
@@ -12,6 +19,8 @@
                 <a href="?page=login"> S'identifier </a>
             </li>
         </h4><br>
+        </body>
+	</html>
     <?php
     }
     ?>    

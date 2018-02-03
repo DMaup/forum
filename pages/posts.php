@@ -16,6 +16,14 @@ if( isset($_GET['cat_id'])){
 if( isset($_GET['topic_id'])){
     $topic_id=$_GET['topic_id'];
 }
+$topic_closed=0;
+if( isset($_GET['topic_closed'])){
+    $topic_closed=($_GET['topic_closed']);
+}
+// $topic_closed=1;
+// if( isset($_GET['topic_closed'])){
+//     $topic_closed=$_GET['topic_closed'];
+// }
 
 ?>
 
@@ -46,11 +54,13 @@ if( isset($_GET['topic_id'])){
                     $html_post .= '<p>' . $post["text"] . ' </p>';
                     $html_post .= '<p>' . $post["date"] . ' </p>';
                     $html_post .= '<input type="hidden" name="post_id" value=' . $post["id"] . '>';
+                    $html_post .= '<input type="hidden" name="topic_closed" value=' . $topic_closed . '>';
                     $html_post .= '<input type="hidden" name="topic_id" value=' . $post["topic"] . '>';                    
                         if( isset( $_SESSION["user"] ) ){                                                        
-                            if ($post["writer"]==$_SESSION["user"]["username"]
+                            if ((($post["writer"]==$_SESSION["user"]["username"]
                             || $_SESSION["user"]["id_role"]==1
-                            || $_SESSION["user"]["id_role"]==2){
+                            || $_SESSION["user"]["id_role"]==2))
+                            && $topic_closed==0){
                             $html_post .= '<a href="?service=delete_post&cat_id=' . $cat_id . '&topic_id=' . $post["topic"] . '&id=' . $post["id"] . '" > Supprimer ce post </a>';
                             }
                         }
@@ -59,7 +69,8 @@ if( isset($_GET['topic_id'])){
                         }
 
                         if( isset( $_SESSION["user"] ) ){                                                        
-                            if ($post["writer"]==$_SESSION["user"]["username"]){
+                            if ($post["writer"]==$_SESSION["user"]["username"]
+                            && $topic_closed==0){
                             $html_post .= '<br><a href="?page=edit_post&cat_id=' . $cat_id . '&topic=' . $post["topic"] . '&topic_label=' . $topic_label . '&post_id=' . $post["id"] . '" > Modifier ce post </a>';
                             }
 
@@ -70,9 +81,10 @@ if( isset($_GET['topic_id'])){
                                                               
                 $html_post .= '</div>';  
             }
-            
+            if ($topic_closed==0){
             $html_post .= '<input type="hidden" name="topic" value=' . $post["topic"] . '>';
             $html_post .= '<input type="submit" value="Créer un nouveau post">';
+            }
         $html_post .= '</form>';
 
         //<!-- Génération de la liste des pages -->
