@@ -1,4 +1,4 @@
-<a href="?page=en_cours"> en_cours </a> <br>
+<a href="?page=home"> Home </a> <br>
 <?php 
     $id_role = $_SESSION["user"]["id_role"];
 
@@ -10,9 +10,7 @@
 <h1> Administration du forum </h1> 
 
 
-    <!-- 
-       ****** GESTION CREATION DES CATEGORIES ******
-    -->
+    
     <a href="?page=en_cours"> Créer une catégorie </a> <br><br>
     
     <a href="?page=en_cours"> Clôturer une catégorie </a> <br><br>
@@ -21,15 +19,11 @@
     
     <a href="?page=en_cours"> Supprimer une catégorie </a> <br><br>
     
-    <a href="?page=en_cours"> Clôturer un sujet </a> <br><br>
-    
-    <a href="?page=en_cours"> Ré-ouvrir un sujet </a> <br><br>
-    
-    <a href="?page=en_cours"> Supprimer un sujet </a> <br><br>
-    
     <a href="?page=en_cours"> Bloquer un Utilisateur </a> <br><br>
     
-    <a href="?page=en_cours"> Supprimer un Utilisateur </a>
+    <a href="?page=en_cours"> Supprimer un Utilisateur </a><br><br>
+
+    <a href="?page=en_cours"> Gestion des droits </a> <br>
     
     
 

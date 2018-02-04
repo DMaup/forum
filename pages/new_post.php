@@ -1,5 +1,8 @@
-<link rel="stylesheet" href="assets/css/styles.css">
+<nav class="container rounded box-shadow" style="background:#87CEFA;margin-bottom: 30px">
+  
 <a href="?page=home"> Home </a> <br>
+</nav>
+<div class="container rounded box-shadow " style="background:#FFEBCD;margin-bottom: 30px">
 <h2> Nouveau Post sur le sujet : </h2>
 
 <?php
@@ -40,9 +43,10 @@ if( isset($_GET['cat_id'])){
     </label>
     <br>
         <input type="hidden" name="post_topic" value="<?php echo $topic_id ?>" >
-        <input type="submit" value="Publier">
+        <input class="container btn-lg btn-block" type="submit" value="Publier">
 
 </form>
+</div>
 
 
 

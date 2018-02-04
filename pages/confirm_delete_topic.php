@@ -1,6 +1,3 @@
-<a href="?page=home"> Home </a> <br>
-<h1> Confirmation </h1>
-
 <?php
 if( isset($_GET['topic_id'])){
     $topic_id=($_GET['topic_id']);   
@@ -13,6 +10,12 @@ if( isset($_GET['cat_id'])){
 if(isset($_GET["topic_close"])){
     $topic_closed=$_GET["topic_close"];
 }
+
+?>
+<a href="?page=home"> Home </a> <br>
+<a href="?page=topics&cat_id=<?php echo $cat_id ?>&topic=<?php echo $topic_id ?>"> Retour à la liste des sujets </a> <br>
+<h1> Confirmation </h1>
+<?php
 
 $html_confirm="";
 

@@ -1,4 +1,10 @@
+<nav class="container rounded box-shadow" style="background:#87CEFA;margin-bottom: 30px">
+    <h1>    
+         FORUM "TP PHP" <br>
+    </h1>
 <a href="?page=home"> Home </a> <br>
+</nav>
+<div class="container rounded box-shadow " style="background:#FFEBCD;margin-bottom: 30px">
 <h1> Login </h1>
 
 <?php
@@ -14,9 +20,10 @@
     <label>Username :</label>
     <input type="text" name="username"> <br>
 
-    <label>Password :</label>
+    <label>Password : </label>
     <input type="password" name="password"> <br>
 
-    <input type="submit" value="Connexion">
+    <input class="container btn-lg btn-block" type="submit" value="Connexion">
 
 </form>
+</div>

@@ -1,4 +1,7 @@
+<nav class="container rounded box-shadow" style="background:#87CEFA;margin-bottom: 30px">
+  
 <a href="?page=home"> Home </a> <br>
+</nav>
 <?php 
 if( isset($_GET['cat_id'])){
     $cat_id=$_GET['cat_id'];
@@ -19,7 +22,7 @@ if( isset( $_GET["post_id"] ) ){
     $post = getPostById( $id );
     
     ?> 
-
+<div class="container rounded box-shadow " style="background:#FFEBCD;margin-bottom: 30px">
     <h2> Edition du post </h2><br>
     <div class="post_text" id="post_text">
         <span><?php echo $post["text"] ?></span><br> 
@@ -36,6 +39,7 @@ if( isset( $_GET["post_id"] ) ){
             <input type="submit" value="Mettre à jour">
 
     </form>
+    </div>
 
     <?php 
 

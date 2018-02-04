@@ -1,5 +1,8 @@
-<link rel="stylesheet" href="assets/css/styles.css">
+<nav class="container rounded box-shadow" style="background:#87CEFA;margin-bottom: 30px">
+  
 <a href="?page=home"> Home </a> <br>
+</nav>
+<div class="container rounded box-shadow " style="background:#FFEBCD;margin-bottom: 30px">
 <h2> Nouveau Sujet dans la catégorie: </h2>
 
 <?php
@@ -30,6 +33,7 @@ if( isset($_GET['cat_id'])){
         <input type="submit" value="Saisir le premier post associé">
 
 </form>
+</div>
 <?php
 
 ?>

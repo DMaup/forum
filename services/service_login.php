@@ -1,4 +1,3 @@
-<a href="?page=home"> Home </a> <br>
 <?php
 $connected = false;
 
@@ -26,3 +25,4 @@ else {
     $error = urlencode("Identifiant ou mot de passe incorrect");
     header("Location: ?page=login&error=".$error);
 }
+?>

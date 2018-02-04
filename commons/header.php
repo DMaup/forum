@@ -1,15 +1,17 @@
+<!DOCTYPE html >
 <html>
     <head>
-        <meta charset="UTF-8">
+        <!-- <meta charset="UTF-8"> -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="assets/css/boostrap.css">
-        
-        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="J:\DEV_WEB\UwAmp\www\Forum\assets\css\boostrap.min.css"> -->
+        <link rel="stylesheet" href="./assets/css/styles.css">
     </head>
-    <body>
+    <body class="bg-light">
 
         <?php if( isLogged() ) { ?>
-            <nav>
+            <nav class="container rounded box-shadow" style="background:#87CEFA">
                 <ul>
                     <li>
                         Utilisateur connecté : <?php echo $_SESSION["user"]["username"]?>
@@ -41,24 +43,7 @@
                         <a href="?page=home"> Home </a>
                     </li>
                         <?php } ?>
-                        <?php if( isLogged() ) { ?>
-                    <!-- <li> 
-                        <a href="?page=posts"> Posts </a>
-                    </li> -->
-                        <!-- <?php } ?>
-                        <?php if( isLogged() ) { ?>
-                    <li> 
-                        <a href="?page=categories"> Catégories </a>
-                    </li>
-                        <?php } ?>
-                        <?php if( isLogged() ) { ?>
-                    <li> 
-                        <a href="?page=topics"> Sujets </a>
-                    </li>
-                        <?php } ?>
-                    <li>
-                        <a href="?page=edit"> Editer </a>
-                    </li>                  -->
+                        
                         <?php if( isLogged( ADMIN ) ) { ?>
                     <li> 
                         <a href="?page=admin"> Gestion du Forum </a>
@@ -69,3 +54,5 @@
                 </ul>
             </nav>
         <?php } ?>
+        </body>
+        </html>
